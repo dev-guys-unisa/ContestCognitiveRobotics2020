@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import os
 import rospy
+from camera_acquisition.msg import ImageWithPose
 from sensor_msgs.msg import Image
 from vision_msgs.msg import Detection2D, Detection2DArray, ObjectHypothesisWithPose
 from pepper_detector.msg import DetectionWithPose
@@ -17,7 +18,7 @@ pub = rospy.Publisher('detection', DetectionWithPose, queue_size=2)
 def rcv_image(msg):
     DetectionWithPose d_pose = DetectionWithPose()
 
-    d_pose.pose=msg.pose
+    d_pose.pose = msg.pose
 
     image = ros_numpy.numpify(msg.image)
     detections = mydetector(image)
@@ -38,8 +39,12 @@ def rcv_image(msg):
     pub.publish(d_pose)
     rospy.loginfo("published")
 
+    """
+    se score > 50 -> clabel
+    """
 
-si = rospy.Subscriber("image_capture", ImageWithPose, rcv_image)
+
+si = rospy.Subscriber("/image_capture", ImageWithPose, rcv_image)
 
 try:
     rospy.spin()
