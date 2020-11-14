@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+import rospy
+from sensor_msgs.msg import Image
+from std_msgs.msg import String
+from camera_acquisition.msg import ImageWithPose
+
+# Subscription topic
+topic = "/pepper_robot/camera/front/camera/image_raw"
+topic_joint = "/pepper_pose"
+topic_image = "/image_capture"
+
+class ImageRetriever:
+
+  def __init__(self, topic, topic_joint, topic_image):
+    self.catch = False
+    self.pose = None
+    rospy.loginfo("Intialized Subcriber to topic %s", topic) 
+    self.image_sub = rospy.Subscriber(topic, Image, self.callback)
+    rospy.loginfo("Intialized Subcriber to topic %s", topic_joint) 
+    self.image_joint = rospy.Subscriber(topic_joint, String, self.catch_callback)
+    rospy.loginfo("Intialized Publisher to topic %s", topic_image) 
+    self.image_pub = rospy.Publisher(topic_image, ImageWithPose, queue_size=0)
+
+  def callback(self, data):
+    if self.catch:
+        rospy.loginfo("Publishing image..")
+        msg = ImageWithPose()
+        msg.pose = self.pose
+        msg.image = data
+        self.image_pub.publish(msg)
+        self.catch = False
+
+  def catch_callback(self, data):
+    self.catch = True
+    self.pose = data
+
+if __name__ == '__main__':
+  # Rospy Node
+  rospy.init_node("camera_stream")
+  rospy.loginfo("Intialized /image_acquire node")
+  ir = ImageRetriever(topic, topic_joint, topic_image)
+  try:
+      rospy.spin()
+  except KeyboardInterrupt:
+      print("Shutting down")

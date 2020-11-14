@@ -39,9 +39,7 @@ def rcv_image(msg):
     rospy.loginfo("published")
 
 
-si = rospy.Subscriber("image", ImageWithPose, rcv_image)
-
-
+si = rospy.Subscriber("image_capture", ImageWithPose, rcv_image)
 
 try:
     rospy.spin()
