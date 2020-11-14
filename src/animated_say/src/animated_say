@@ -1,0 +1,24 @@
+#!/usr/bin/env python
+import rospy
+from naoqi_driver.naoqi_driver import NaoqiNode
+from animated_say.srv import say 
+
+class AnimatedSay(NaoqiNode):
+    def __init__(self):
+        NaoqiNode.__init__(self, 'animated_speech')
+        self.connectNaoQi()
+        pass
+
+    def say(self, data):
+        rospy.loginfo("Start: %s", data.message)
+        self.speech.say(data.message)
+        rospy.loginfo("End: %s", data.message)
+        return SayResponse(True)
+
+    def connectNaoQi(self):
+        self.speech = self.get_proxy("ALAnimatedSpeech")
+        self.srv = rospy.Service('animated_say', say, self.say)
+
+if __name__ == "__main__":
+    pub = AnimatedSay()
+    rospy.spin()
