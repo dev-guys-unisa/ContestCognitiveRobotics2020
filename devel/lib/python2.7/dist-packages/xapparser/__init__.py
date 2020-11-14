@@ -1,0 +1,1 @@
+/home/mivia/ProjectWorkspace/devel/.private/naoqi_pose/lib/python2.7/dist-packages/xapparser/__init__.py

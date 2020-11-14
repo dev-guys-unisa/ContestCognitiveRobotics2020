@@ -1,0 +1,1 @@
+/home/mivia/ProjectWorkspace/devel/.private/naoqi_bridge_msgs/share/roseus/ros/naoqi_bridge_msgs/msg/FollowPathActionGoal.l

@@ -1,0 +1,8 @@
+prefix=/home/mivia/ProjectWorkspace/devel/.private/camera_acquisition
+
+Name: camera_acquisition
+Description: Description of camera_acquisition
+Version: 1.0.0
+Cflags: 
+Libs: -L/home/mivia/ProjectWorkspace/devel/.private/camera_acquisition/lib 
+Requires: 

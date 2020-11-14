@@ -1,0 +1,8 @@
+prefix=/home/mivia/ProjectWorkspace/devel/.private/head_movement
+
+Name: head_movement
+Description: Description of head_movement
+Version: 1.0.0
+Cflags: 
+Libs: -L/home/mivia/ProjectWorkspace/devel/.private/head_movement/lib 
+Requires: 

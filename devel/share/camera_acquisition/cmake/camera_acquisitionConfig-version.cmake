@@ -1,0 +1,1 @@
+/home/mivia/ProjectWorkspace/devel/.private/camera_acquisition/share/camera_acquisition/cmake/camera_acquisitionConfig-version.cmake

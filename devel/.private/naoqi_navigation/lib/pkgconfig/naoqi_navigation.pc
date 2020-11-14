@@ -1,0 +1,8 @@
+prefix=/home/mivia/ProjectWorkspace/devel/.private/naoqi_navigation
+
+Name: naoqi_navigation
+Description: Description of naoqi_navigation
+Version: 0.0.1
+Cflags: 
+Libs: -L/home/mivia/ProjectWorkspace/devel/.private/naoqi_navigation/lib 
+Requires: 

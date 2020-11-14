@@ -1,0 +1,1 @@
+/home/mivia/ProjectWorkspace/devel/.private/naoqi_driver_py/include/naoqi_driver_py/NaoqiSpeechConfig.h
