@@ -1,1 +1,0 @@
-/home/mivia/ProjectWorkspace/devel/.private/camera_publisher/share/camera_publisher/cmake/camera_publisherConfig-version.cmake

@@ -1,8 +1,0 @@
-prefix=/home/mivia/ProjectWorkspace/devel/.private/camera_publisher
-
-Name: camera_publisher
-Description: Description of camera_publisher
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/mivia/ProjectWorkspace/devel/.private/camera_publisher/lib 
-Requires: 

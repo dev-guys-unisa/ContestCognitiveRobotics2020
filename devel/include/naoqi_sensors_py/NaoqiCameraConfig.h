@@ -1,1 +1,0 @@
-/home/mivia/ProjectWorkspace/devel/.private/naoqi_sensors_py/include/naoqi_sensors_py/NaoqiCameraConfig.h

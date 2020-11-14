@@ -1,1 +1,0 @@
-/home/mivia/ProjectWorkspace/devel/.private/naoqi_driver_py/share/naoqi_driver_py/cmake/naoqi_driver-extras.cmake

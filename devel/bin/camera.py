@@ -1,1 +1,0 @@
-/home/mivia/ProjectWorkspace/devel/.private/pepper_sensors_py/bin/camera.py

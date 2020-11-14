@@ -1,1 +1,0 @@
-/home/mivia/ProjectWorkspace/devel/.private/head_movement/lib/pkgconfig/head_movement.pc

@@ -1,1 +1,0 @@
-/home/mivia/ProjectWorkspace/devel/.private/pepper_description/lib/pkgconfig/pepper_description.pc

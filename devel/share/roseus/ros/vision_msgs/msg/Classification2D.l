@@ -1,1 +1,0 @@
-/home/mivia/ProjectWorkspace/devel/.private/vision_msgs/share/roseus/ros/vision_msgs/msg/Classification2D.l
