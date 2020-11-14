@@ -1,8 +1,0 @@
-prefix=/home/mivia/ProjectWorkspace/install
-
-Name: naoqi_pose
-Description: Description of naoqi_pose
-Version: 0.5.5
-Cflags: 
-Libs: -L/home/mivia/ProjectWorkspace/install/lib 
-Requires: 

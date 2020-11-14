@@ -1,8 +1,0 @@
-prefix=/home/mivia/ProjectWorkspace/install
-
-Name: naoqi_driver_py
-Description: Description of naoqi_driver_py
-Version: 0.5.5
-Cflags: -I/home/mivia/ProjectWorkspace/install/include
-Libs: -L/home/mivia/ProjectWorkspace/install/lib 
-Requires: 

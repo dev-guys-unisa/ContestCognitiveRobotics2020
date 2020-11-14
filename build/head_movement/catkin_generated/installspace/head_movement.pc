@@ -1,8 +1,0 @@
-prefix=/home/mivia/ProjectWorkspace/install
-
-Name: head_movement
-Description: Description of head_movement
-Version: 1.0.0
-Cflags: 
-Libs: -L/home/mivia/ProjectWorkspace/install/lib 
-Requires: 

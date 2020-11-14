@@ -1,6 +1,0 @@
-devel_space: /home/mivia/ProjectWorkspace/devel
-install: false
-install_space: /home/mivia/ProjectWorkspace/install
-profile: default
-source_space: /home/mivia/ProjectWorkspace/src
-workspace: /home/mivia/ProjectWorkspace
