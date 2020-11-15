@@ -1,0 +1,41 @@
+# Download and setup of the required components:
+# Key from http://wiki.ros.org/Installation/Ubuntu
+# SDK from https://developer.softbankrobotics.com/pepper-naoqi-25 > downloads > python #sdk
+sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+sudo apt install -y ros-melodic-octomap ros-melodic-octomap-msgs ros-melodic-rgbd-launch ros-melodic-camera-info-
+manager-py
+cd ..
+cd cogrob_git/
+git clone https://github.com/ros-naoqi/pepper_robot
+git clone https://github.com/ros-naoqi/naoqi_bridge
+git clone https://github.com/ros-naoqi/naoqi_bridge_msgs
+wget https://community-static.aldebaran.com/resources/2.5.10/Python%20SDK/pynaoqi-python2.7-2.5.7.1-linux64.tar.gz
+tar xf pynaoqi-python2.7-2.5.7.1-linux64.tar.gz
+rm pynaoqi-python2.7-2.5.7.1-linux64.tar.gz
+D=$(realpath pynaoqi-python2.7-2.5.7.1-linux64)
+cd ..
+# Workspace setup:
+mkdir -p pepper-ros-test/src
+cd pepper-ros-test/src
+ln -s ../../cogrob_git/pepper_robot .
+ln -s ../../cogrob_git/naoqi_bridge .
+ln -s ../../cogrob_git/naoqi_bridge_msgs .
+cd ..
+catkin build
+echo 'export PYTHONPATH=${PYTHONPATH}:$D/lib/python2.7/site-packages' >> devel/setup.bash
+echo 'export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:$D/lib' >> devel/setup.bash #configure where to find naoqi sdk
+source devel/setup.bash
+
+cd ~/pepper-ros-test/src
+git clone https://github.com/ros-naoqi/pepper_meshes
+catkin build
+cd ../build/pepper_meshes
+make pepper_meshes_meshes # Accept license and wait for download (French law)
+cd ../..
+ln -s $(realpath devel/.private/pepper_meshes/tmp/meshes) src/pepper_meshes
+source devel/setup.bash
+
+
+roslaunch pepper_bringup pepper_full_py.launch nao_ip:=10.0.1.230
+
+rosrun rviz rviz -d src/pepper_robot/pepper_description/config/urdf.rviz
