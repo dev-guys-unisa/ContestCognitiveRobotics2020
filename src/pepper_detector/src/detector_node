@@ -16,7 +16,7 @@ pub = rospy.Publisher('detection', DetectionWithPose, queue_size=2)
 
 
 def rcv_image(msg):
-    DetectionWithPose d_pose = DetectionWithPose()
+    d_pose = DetectionWithPose()
 
     d_pose.pose = msg.pose
 
