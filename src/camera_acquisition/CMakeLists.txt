@@ -10,7 +10,6 @@ project(camera_acquisition)
 find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   message_generation
-  message_runtime
   rospy
   sensor_msgs
   std_msgs
@@ -111,7 +110,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES camera_acquisition
-#  CATKIN_DEPENDS cv_bridge message_generation message_runtime rospy sensor_msgs std_msgs vision_msgs
+  CATKIN_DEPENDS cv_bridge message_runtime rospy sensor_msgs std_msgs vision_msgs
 #  DEPENDS system_lib
 )
 

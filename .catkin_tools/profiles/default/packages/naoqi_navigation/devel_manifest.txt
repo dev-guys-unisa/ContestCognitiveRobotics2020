@@ -1,0 +1,5 @@
+naoqi_bridge/naoqi_navigation/python
+/home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/.private/naoqi_navigation/cmake.lock /home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/./cmake.lock
+/home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/.private/naoqi_navigation/share/naoqi_navigation/cmake/naoqi_navigationConfig.cmake /home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/share/naoqi_navigation/cmake/naoqi_navigationConfig.cmake
+/home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/.private/naoqi_navigation/share/naoqi_navigation/cmake/naoqi_navigationConfig-version.cmake /home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/share/naoqi_navigation/cmake/naoqi_navigationConfig-version.cmake
+/home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/.private/naoqi_navigation/lib/pkgconfig/naoqi_navigation.pc /home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/lib/pkgconfig/naoqi_navigation.pc

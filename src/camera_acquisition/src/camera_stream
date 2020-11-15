@@ -6,7 +6,8 @@ from cv_bridge import CvBridge, CvBridgeError
 import cv2 as cv
 
 # Subscription topic
-topic = "/pepper_robot/camera/front/camera/image_raw"
+#topic = "/pepper_robot/camera/front/camera/image_raw"
+topic = "camera_pc"
 
 class ImageRetriever:
 
@@ -19,7 +20,7 @@ class ImageRetriever:
     self.image_sub = rospy.Subscriber(topic, Image, self.callback)
 
   def callback(self, data):
-    rospy.loginfo("Received data, trying to show it..")
+    #rospy.loginfo("Received data, trying to show it..")
     try:
       # Conversion to cv2 image using bgr8 encoding 
       frame = self.bridge.imgmsg_to_cv2(data, "bgr8")
