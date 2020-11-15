@@ -1,2 +1,2 @@
-String pose
-Detection2DArray[] detections
+std_msgs/String pose
+vision_msgs/Detection2DArray[] detections

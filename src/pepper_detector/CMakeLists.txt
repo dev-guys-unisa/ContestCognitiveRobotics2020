@@ -10,9 +10,6 @@ project(pepper_detector)
 find_package(catkin REQUIRED COMPONENTS
   message_generation
   message_runtime
-  naoqi_bridge
-  naoqi_bridge_msgs
-  pepper_robot
   rospy
   sensor_msgs
   std_msgs
@@ -75,11 +72,10 @@ add_message_files(
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
   DEPENDENCIES
-  naoqi_bridge_msgs
   sensor_msgs
   std_msgs  
   vision_msgs
-  message_runtime
+  pepper_detector
 )
 
 ################################################
