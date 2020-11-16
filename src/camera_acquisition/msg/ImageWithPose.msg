@@ -1,2 +1,2 @@
-std_msgs/String[] poses
-sensor_msgs/Image[] images
+std_msgs/String pose
+sensor_msgs/Image image

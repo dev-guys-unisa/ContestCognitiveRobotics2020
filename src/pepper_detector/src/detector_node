@@ -2,23 +2,27 @@
 import os
 import rospy
 from camera_acquisition.msg import ImageWithPose
+from std_msgs.msg import String
 from sensor_msgs.msg import Image
 from vision_msgs.msg import Detection2D, Detection2DArray, ObjectHypothesisWithPose
 from pepper_detector.msg import DetectionWithPose
 from detector import Detector
 import ros_numpy # pip3 install git+https://github.com/eric-wieser/ros_numpy
 
-def rcv_image(msg):
-    rospy.loginfo("Image received, running inference...")
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
+
+mydetector = None
+queue = {}
+arrived = 0
+
+def detect(pose, image):
+    rospy.loginfo("Running inference...")
     d_pose = DetectionWithPose()
-
-    d_pose.pose = msg.pose
-
-    image = ros_numpy.numpify(msg.image)
+    d_pose.pose = pose
     detections = mydetector(image)
     message = Detection2DArray()
     for clabel,score,box in zip(detections['detection_classes'], detections['detection_scores'], detections['detection_boxes']):
-        rospy.loginfo("Seen ",str(int(clabel)),":",str(int(score)))
+        #rospy.loginfo("Seen ",str(int(clabel)),":",str(int(score)))
         d = Detection2D()
         d.bbox.size_x = box[3]-box[1]
         d.bbox.size_y = box[2]-box[0]
@@ -34,6 +38,23 @@ def rcv_image(msg):
     pub.publish(d_pose)
     rospy.loginfo("detection published")
 
+def rcv_image(msg):
+    rospy.loginfo("Image received")
+    global arrived
+    arrived += 1
+
+    image = ros_numpy.numpify(msg.image)
+    if mydetector is None:
+        rospy.loginfo("Model not already loaded, saving image in queue")
+        queue[str(msg.pose)] = msg.image #store in the queue
+    else:
+        detect(msg.pose, image) #run inference
+    
+    if arrived == 3: #once finished head movements, scan the queue
+        for pose,img in queue.items():
+            detect(pose, img)
+        queue.clear()
+
     """
     se score > 50 -> clabel
     """
@@ -41,6 +62,8 @@ def rcv_image(msg):
 rospy.init_node('detector_node')
 pub = rospy.Publisher('detection', DetectionWithPose, queue_size=2)
 si = rospy.Subscriber("/image_capture", ImageWithPose, rcv_image, queue_size=5)
+
+rospy.loginfo ("Node /detector_node created, loading object detector")
 
 DET_PATH=os.path.join(os.path.dirname(__file__),'efficientdet_d1_coco17_tpu-32')
 mydetector = Detector(DET_PATH)

@@ -2,6 +2,7 @@
 import rospy
 from naoqi_bridge_msgs.msg import JointAnglesWithSpeed
 from std_msgs.msg import String
+from time import sleep
 
 # Rospy Node
 rospy.init_node("head_movement")
@@ -17,13 +18,14 @@ s.joint_names = ['HeadPitch', 'HeadYaw']
 s.relative = 0
 s.speed = 0.2
 rospy.loginfo("Movement speed setted to %.1f", s.speed)
-rate = rospy.Rate(0.2)
+rate = rospy.Rate(0.1)
 # Defining flags to make different movements
 flag = [False, False, False]
 setup = False
 cnt = 0
 
 while not rospy.is_shutdown():
+    sleep (20)
     if not setup:
         # This setup allows Pepper to turn in the starting position
         rospy.loginfo("Setup phase ..")
@@ -40,7 +42,7 @@ while not rospy.is_shutdown():
         flag[0] = True
         rospy.loginfo("Turning in [%.1f - %.1f]", s.joint_angles[0], s.joint_angles[1])
         pub.publish(s)
-    """elif not flag[1]:
+    elif not flag[1]:
         pub_joint.publish(String("Left"))
         # Turn right
         s.joint_angles = [0.1, -1.0]
@@ -53,5 +55,5 @@ while not rospy.is_shutdown():
         s.joint_angles = [0.1, 0.0]
         flag[2] = True
         rospy.loginfo("Turning in [%.1f - %.1f]", s.joint_angles[0], s.joint_angles[1])
-        pub.publish(s)"""
+        pub.publish(s)
     rate.sleep()
