@@ -5,8 +5,8 @@ from std_msgs.msg import String
 from camera_acquisition.msg import ImageWithPose
 
 # Subscription topic
-#topic = "/pepper_robot/camera/front/camera/image_raw"
-topic = "/camera_pc"
+topic = "/pepper_robot/camera/front/camera/image_raw"
+#topic = "/camera_pc"
 topic_joint = "/pepper_pose"
 topic_image = "/image_capture"
 
