@@ -1,26 +1,34 @@
 #!/usr/bin/env python
+import time
 import rospy
-from naoqi_driver.naoqi_driver import NaoqiNode
-from animated_say.srv import say 
+from naoqi_driver import NaoqiNode
+from std_msgs.msg import String
+
+topic = "/pepper_detective"
 
 class AnimatedSay(NaoqiNode):
     def __init__(self):
         NaoqiNode.__init__(self, 'animated_speech')
+        # Subscription to the topic for the detections
+        self.sub = rospy.Subscriber(topic, String, self.make_msg)
         self.connectNaoQi()
         pass
+        
+    def connectNaoQi(self):
+         # Speech proxy attachment
+        self.speech = self.get_proxy("ALAnimatedSpeech")
+        self.ttsStop = ALProxy('ALAnimatedSpeech', True)
+
+    def make_msg(self, data):
+        # Tipical command : "Hello! ^start(animations/Stand/Gestures/Hey_1) Nice to meet you!"
+        self.msg = str(data)
+        self.msg += " ^start(animations/Stand/Gestures/Explain_10)"
+        self.say(self.msg)
 
     def say(self, msg):
-        rospy.loginfo("Start: %s", data.message)
-        self.speech.say(msg)
-        rospy.loginfo("End: %s", data.message)
-        return SayResponse(True)
-
-    def connectNaoQi(self):
-        self.speech = self.get_proxy("ALAnimatedSpeech")
-
-    def when_done(self):
-        msg = ""
-        self.say(msg)
+        # Sending phrase and bodyLanguage to Pepper
+        id = self.speech.say(str(msg), {"bodyLanguageMode":"contextual"})
+        self.speech.wait(id, 0)
 
 if __name__ == "__main__":
     pub = AnimatedSay()
