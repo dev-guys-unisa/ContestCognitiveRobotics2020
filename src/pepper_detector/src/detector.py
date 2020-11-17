@@ -1,4 +1,6 @@
 import cv2
+import os 
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 import tensorflow as tf
 assert(int(tf.__version__.split('.')[0]) >= 2)
 import numpy as np

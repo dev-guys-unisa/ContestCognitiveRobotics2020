@@ -9,8 +9,6 @@ from pepper_detector.msg import DetectionWithPose
 from detector import Detector
 import ros_numpy # pip3 install git+https://github.com/eric-wieser/ros_numpy
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
-
 mydetector = None
 queue = {}
 arrived = 0

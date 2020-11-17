@@ -7,10 +7,12 @@ from cv_bridge import CvBridge, CvBridgeError
 import numpy as np
 import os
 
+topic="/camera_pc"
+
 class image_converter:
 
   def __init__(self, img):
-    self.image_pub = rospy.Publisher("camera_pc", Image, queue_size=1000)
+    self.image_pub = rospy.Publisher(topic, Image, queue_size=1000)
     self.bridge = CvBridge()
     self.img = img
 
