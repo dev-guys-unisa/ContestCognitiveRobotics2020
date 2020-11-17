@@ -20,7 +20,7 @@ class AnimatedSay(NaoqiNode):
 
     def callback(self, data):
         # Tipical command : "Hello! ^start(animations/Stand/Gestures/Hey_1) Nice to meet you!"
-        self.msg = str(data)
+        self.msg = str(data.data)
         self.msg += " ^start(animations/Stand/Gestures/Explain_10)"
         self.say(self.msg)
 
@@ -29,6 +29,5 @@ class AnimatedSay(NaoqiNode):
         self.speech.say(self.msg, {"bodyLanguageMode":"contextual"})
 
 if __name__ == "__main__":
-    rospy.init_node("pepper_say")
     pub = AnimatedSay()
     rospy.spin()
