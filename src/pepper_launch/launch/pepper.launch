@@ -1,8 +1,8 @@
 <launch>
     <node name="visualization" pkg="pepper_detector" type="visualization_node" output="screen"/>
     <node name="detector" pkg="pepper_detector" type="detector_node" output="screen"/>
-    <node name="stream" pkg="camera_acquisition" type="camera_stream" output="screen"/>
+    <!--<node name="stream" pkg="camera_acquisition" type="camera_stream" output="screen"/>-->
     <node name="acquire" pkg="camera_acquisition" type="image_acquire" output="screen"/>
-    <node name="publisher" pkg="camera_publisher" type="publisher" output="screen"/>
+    <!--<node name="publisher" pkg="camera_publisher" type="publisher" output="screen"/>-->
     <node name="movement" pkg="head_movement" type="head_shake" output="screen"/>
 </launch>

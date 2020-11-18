@@ -8,6 +8,10 @@ from vision_msgs.msg import Detection2D, Detection2DArray, ObjectHypothesisWithP
 from pepper_detector.msg import DetectionWithPose
 from detector import Detector
 import ros_numpy # pip3 install git+https://github.com/eric-wieser/ros_numpy
+from classmap import category_map as classmap
+
+#topic = "/detection"
+topic = "/pepper_detective"
 
 mydetector = None
 queue = {}
@@ -16,11 +20,11 @@ arrived = 0
 def detect(pose, image):
     rospy.loginfo("Running inference...")
     d_pose = DetectionWithPose()
-    d_pose.pose = pose
+    d_pose.pose.data = pose
     detections = mydetector(image)
-    message = Detection2DArray()
+    """message = Detection2DArray()
     for clabel,score,box in zip(detections['detection_classes'], detections['detection_scores'], detections['detection_boxes']):
-        #rospy.loginfo("Seen ",str(int(clabel)),":",str(int(score)))
+        #rospy.loginfo("Seen {}:{}".format(str(int(clabel)),str(int(score))))
         d = Detection2D()
         d.bbox.size_x = box[3]-box[1]
         d.bbox.size_y = box[2]-box[0]
@@ -32,7 +36,15 @@ def detect(pose, image):
         d.results.append(o)
         message.detections.append(d)
         
-    d_pose.detections = message
+    d_pose.detections = message"""
+
+    labels = []
+    for label in detections['detection_classes']:
+        s = String()
+        s.data = classmap[label]
+        labels.append(s)
+
+    d_pose.detections = labels
     pub.publish(d_pose)
     rospy.loginfo("detection published")
 
@@ -44,21 +56,19 @@ def rcv_image(msg):
     image = ros_numpy.numpify(msg.image)
     if mydetector is None:
         rospy.loginfo("Model not already loaded, saving image in queue")
-        queue[str(msg.pose)] = msg.image #store in the queue
+        queue[msg.pose.data] = image #store in the queue
     else:
-        detect(msg.pose, image) #run inference
+        detect(msg.pose.data, image) #run inference
     
     if arrived == 3: #once finished head movements, scan the queue
+        while mydetector is None:
+            rospy.loginfo("Model not already loaded")
         for pose,img in queue.items():
             detect(pose, img)
         queue.clear()
 
-    """
-    se score > 50 -> clabel
-    """
-
 rospy.init_node('detector_node')
-pub = rospy.Publisher('detection', DetectionWithPose, queue_size=2)
+pub = rospy.Publisher(topic, DetectionWithPose, queue_size=2)
 si = rospy.Subscriber("/image_capture", ImageWithPose, rcv_image, queue_size=5)
 
 rospy.loginfo ("Node /detector_node created, loading object detector")

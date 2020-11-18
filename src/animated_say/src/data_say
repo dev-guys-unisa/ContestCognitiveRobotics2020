@@ -10,6 +10,7 @@ class AnimatedSay(NaoqiNode):
     def __init__(self):
         NaoqiNode.__init__(self, 'animated_speech')
         # Subscription to the topic for the detections
+        self.msg=""
         self.say_sub = rospy.Subscriber(topic, String, self.callback)
         self.connectNaoQi()
         pass
@@ -18,11 +19,19 @@ class AnimatedSay(NaoqiNode):
         # Speech Proxy attachment
         self.speech = self.get_proxy("ALAnimatedSpeech")
 
+    arrived = 0
     def callback(self, data):
         # Tipical command : "Hello! ^start(animations/Stand/Gestures/Hey_1) Nice to meet you!"
-        self.msg = str(data.data)
+        global arrived
+        arrived += 1
+        message = "a "
+        for s in data.detections:
+            message += s.data + ", a "
+        self.msg += "In the " + str(data.pose.data) + "position, I have seen " + message + ". "
         self.msg += " ^start(animations/Stand/Gestures/Explain_10)"
-        self.say(self.msg)
+        
+        if arrived == 3:
+            self.say(self.msg)
 
     def say(self, msg):
         # Sending phrase and bodyLanguage to Pepper

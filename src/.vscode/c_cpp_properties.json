@@ -1,0 +1,17 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/include/**",
+        "/opt/ros/melodic/include/**",
+        "/home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/src/vision_msgs/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS"
+    }
+  ]
+}
