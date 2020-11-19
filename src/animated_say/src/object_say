@@ -3,6 +3,7 @@ import time
 import rospy
 from naoqi_driver import NaoqiNode
 from collections import Counter
+from pepper_detector.msg import DetectionWithPose
 
 initial_phrase = "Okay, ^start(animations/Stand/Gestures/Explain_6) I think I saw something."
 
@@ -16,7 +17,7 @@ class ObjectSay(NaoqiNode):
         pass
 
     def init_subs(self, topic):
-        self.say_sub = rospy.Subscriber(topic, String, self.callback)
+        self.say_sub = rospy.Subscriber(topic, DetectionWithPose, self.callback)
 
     def connectNaoqi(self):
         # Speech Proxy attachment
@@ -24,6 +25,7 @@ class ObjectSay(NaoqiNode):
 
     def say(self, msg):
         # Sending phrase and bodyLanguage to Pepper
+        #self.speech.setParameter("speed", 1.0)
         self.speech.say(msg, {"bodyLanguageMode":"contextual"})
 
     def callback(self, data):
