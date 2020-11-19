@@ -55,7 +55,7 @@ def rcv_detection(data):
         message += s.data + ";"
     rospy.loginfo ("{}:{}".format(data.pose.data, message))
 
-sd = rospy.Subscriber("detection", DetectionWithPose, rcv_detection)
+sd = rospy.Subscriber("pepper_detective", DetectionWithPose, rcv_detection)
 
 
 try:
