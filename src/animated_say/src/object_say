@@ -1,0 +1,51 @@
+#!/usr/bin/env python
+import time
+import rospy
+from naoqi_driver import NaoqiNode
+from collections import Counter
+
+initial_phrase = "Okay, ^start(animations/Stand/Gestures/Explain_6) I think I saw something."
+
+class ObjectSay(NaoqiNode):
+
+    def __init__(self):
+        NaoqiNode.__init__(self, 'welcome_say')
+        self.connectNaoqi()
+        self.pictures = 0
+        self.msg = ""
+        pass
+
+    def init_subs(self, topic):
+        self.say_sub = rospy.Subscriber(topic, String, self.callback)
+
+    def connectNaoqi(self):
+        # Speech Proxy attachment
+        self.speech = self.get_proxy("ALAnimatedSpeech")
+
+    def say(self, msg):
+        # Sending phrase and bodyLanguage to Pepper
+        self.speech.say(msg, {"bodyLanguageMode":"contextual"})
+
+    def callback(self, data):
+        self.pictures += 1
+        self.msg += "On the " if self.pictures == 1 else "Then, on the" 
+        self.msg += str(data.pose.data) + "side, I see ^start(animations/Stand/Gestures/Explain_10) "
+        for s in data.detections:
+            self.msg += "an " if self._is_vowel(s.data[0]) else "a "
+            self.msg += s.data + ", "
+        self.msg += "and nothing more."
+        if self.pictures == 3:
+            self.say(self.msg)
+
+    def _is_vowel(self, char):
+        if (char == 'a' or char == 'e' or char == 'i' or char == 'o' or char == 'u'):
+            return True
+        else:
+            return False
+
+if __name__ == "__main__":
+    wlcm = ObjectSay()
+    msg = "Hi, ^start(animations/Stand/Gestures/Hey_6) let me see what I can find."
+    wlcm.say(msg)
+    wlcm.init_subs("/pepper_detective")
+    rospy.spin()
