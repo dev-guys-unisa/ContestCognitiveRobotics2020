@@ -14,6 +14,7 @@ class ObjectSay(NaoqiNode):
         self.connectNaoqi()
         self.pictures = 0
         self.msg = ""
+        self.counter = Counter()
         pass
 
     def init_subs(self, topic):
@@ -25,19 +26,27 @@ class ObjectSay(NaoqiNode):
 
     def say(self, msg):
         # Sending phrase and bodyLanguage to Pepper
-        #self.speech.setParameter("speed", 1.0)
+        # self.speech.setParameter("speed", 75)
         self.speech.say(msg, {"bodyLanguageMode":"contextual"})
+        #
 
     def callback(self, data):
         self.pictures += 1
-        self.msg += "On the " if self.pictures == 1 else "Then, on the" 
+        self.msg += "\RSPD=" + str(65) + "\ On the " if self.pictures == 1 else "Then, on the" 
         self.msg += str(data.pose.data) + "side, I see ^start(animations/Stand/Gestures/Explain_10) "
         for s in data.detections:
-            self.msg += "an " if self._is_vowel(s.data[0]) else "a "
-            self.msg += s.data + ", "
+            self.counter[s.data] += 1
+        for x in self.counter:
+            if self.counter[x] == 1:
+                self.msg += "an " if self._is_vowel(x[0]) else "a "
+                self.msg += x + ", "
+            else:
+                self.msg += str(self.counter[x]) + " " + x + "s, "
         self.msg += "and nothing more."
+        self.counter.clear()
         if self.pictures == 3:
             self.say(self.msg)
+            rospy.loginfo(self.msg)
 
     def _is_vowel(self, char):
         if (char == 'a' or char == 'e' or char == 'i' or char == 'o' or char == 'u'):
@@ -45,9 +54,11 @@ class ObjectSay(NaoqiNode):
         else:
             return False
 
+    
+
 if __name__ == "__main__":
     wlcm = ObjectSay()
-    msg = "Hi, ^start(animations/Stand/Gestures/Hey_6) let me see what I can find."
+    msg = "\RSPD=" + str(65) + "\ Hi, ^start(animations/Stand/Gestures/Hey_6) let me see what I can find."
     wlcm.say(msg)
     wlcm.init_subs("/pepper_detective")
     rospy.spin()
