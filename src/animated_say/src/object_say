@@ -5,8 +5,6 @@ from naoqi_driver import NaoqiNode
 from collections import Counter
 from pepper_detector.msg import DetectionWithPose
 
-initial_phrase = "Okay, ^start(animations/Stand/Gestures/Explain_6) I think I saw something."
-
 class ObjectSay(NaoqiNode):
 
     def __init__(self):
@@ -18,6 +16,7 @@ class ObjectSay(NaoqiNode):
         pass
 
     def init_subs(self, topic):
+        # Init subscriber for receiving detections
         self.say_sub = rospy.Subscriber(topic, DetectionWithPose, self.callback)
 
     def connectNaoqi(self):
@@ -28,12 +27,20 @@ class ObjectSay(NaoqiNode):
         # Sending phrase and bodyLanguage to Pepper
         # self.speech.setParameter("speed", 75)
         self.speech.say(msg, {"bodyLanguageMode":"contextual"})
-        #
-
+        
     def callback(self, data):
+        """
+        This callback function takes care of constructing the sentence that will 
+        subsequently be pronounced by Pepper, taking into account the position of 
+        the objects and their number.
+        E.G. Pepper won't say "mouse, mouse", instead he'll say "two mouses".
+        """
+        # Incrementing image received counter
         self.pictures += 1
-        self.msg += "\RSPD=" + str(65) + "\ On the " if self.pictures == 1 else "Then, on the" 
-        self.msg += str(data.pose.data) + "side, I see ^start(animations/Stand/Gestures/Explain_10) "
+        # The RSPD tag sets the speaking speed 
+        self.msg += "\RSPD=65" + "\ On the " if self.pictures == 1 else "Then, on the " 
+        self.msg += str(data.pose.data) + " side, I see ^start(animations/Stand/Gestures/Explain_10) "
+        # Object counting
         for s in data.detections:
             self.counter[s.data] += 1
         for x in self.counter:
@@ -42,7 +49,7 @@ class ObjectSay(NaoqiNode):
                 self.msg += x + ", "
             else:
                 self.msg += str(self.counter[x]) + " " + x + "s, "
-        self.msg += "and nothing more."
+        self.msg += "and nothing more. "
         self.counter.clear()
         if self.pictures == 3:
             self.say(self.msg)
@@ -54,11 +61,9 @@ class ObjectSay(NaoqiNode):
         else:
             return False
 
-    
-
 if __name__ == "__main__":
     wlcm = ObjectSay()
-    msg = "\RSPD=" + str(65) + "\ Hi, ^start(animations/Stand/Gestures/Hey_6) let me see what I can find."
+    msg = "\RSPD=65" + "\ Hi, ^start(animations/Stand/Gestures/Hey_6) let me see what I can find."
     wlcm.say(msg)
     wlcm.init_subs("/pepper_detective")
     rospy.spin()
