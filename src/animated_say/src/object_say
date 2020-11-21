@@ -8,7 +8,7 @@ from pepper_detector.msg import DetectionWithPose
 class ObjectSay(NaoqiNode):
 
     def __init__(self):
-        NaoqiNode.__init__(self, 'welcome_say')
+        NaoqiNode.__init__(self, 'object_say')
         self.connectNaoqi()
         self.pictures = 0
         self.msg = ""
@@ -25,7 +25,6 @@ class ObjectSay(NaoqiNode):
 
     def say(self, msg):
         # Sending phrase and bodyLanguage to Pepper
-        # self.speech.setParameter("speed", 75)
         self.speech.say(msg, {"bodyLanguageMode":"contextual"})
         
     def callback(self, data):
@@ -62,8 +61,6 @@ class ObjectSay(NaoqiNode):
             return False
 
 if __name__ == "__main__":
-    wlcm = ObjectSay()
-    msg = "\RSPD=65" + "\ Hi, ^start(animations/Stand/Gestures/Hey_6) let me see what I can find."
-    wlcm.say(msg)
-    wlcm.init_subs("/pepper_detective")
+    obj = ObjectSay()
+    obj.init_subs("/pepper_detective")
     rospy.spin()

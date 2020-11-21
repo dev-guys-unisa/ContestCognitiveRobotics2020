@@ -1,0 +1,56 @@
+#!/usr/bin/env python
+import time
+import rospy
+from naoqi_driver import NaoqiNode
+from collections import Counter
+from pepper_detector.msg import DetectionWithPose
+
+class TalkException(Exception):
+    pass
+
+class PepperTalk(NaoqiNode):
+
+    def __init__(self):
+        NaoqiNode.__init__(self, 'wait_say')
+        self.connectNaoqi()
+        # Tracks the model initialization
+        self.construc_msg()
+        self.talking()
+        pass
+
+    def construc_msg(self):
+        self.msg = [
+            "\RSPD=65\ Hi, ^start(animations/Stand/Gestures/Hey_6) let me see what I can find.",
+            "\RSPD=65\ Ok, ^start(animations/Stand/BodyTalk/BodyTalk_3) now I'm going to look around a bit.",
+            "\RSPD=65\ Give ^start(animations/Stand/BodyTalk/BodyTalk_22) me a minute, I'm working on it."
+        ]
+
+    def init_subs(self, topic):
+        # Init subscriber for receiving detections
+        self.say_sub = rospy.Subscriber(topic, DetectionWithPose, self.callback)
+
+    def connectNaoqi(self):
+        # Speech Proxy attachment
+        self.speech = self.get_proxy("ALAnimatedSpeech")
+
+    def say(self, msg):
+        # Sending phrase and bodyLanguage to Pepper
+        self.speech.say(msg, {"bodyLanguageMode":"contextual"})
+
+    def talking(self):
+        try:
+            for i in range(len(self.msg)):
+                self.say(self.msg[i])
+                time.sleep(5)
+        except TalkException:
+            rospy.loginfo("Model loaded")
+        finally:
+            self.say("\RSPD=65\ I think ^start(animations/Stand/Gestures/Explain_4) I saw something, now I'll tell you what.")
+        
+    def callback(self, data):
+        raise TalkException("Model Ready, Stop Talking")
+
+if __name__ == "__main__":
+    pepper_say = PepperTalk()
+    pepper_say.init_subs("/pepper_detective")
+    rospy.spin()
