@@ -2,10 +2,10 @@
  *
  * This module has been developed by Group 18 @ Cognitive Robotics DIEM.UNISA.
  *
- * Title:	object_say
- * Author:	Fina, Puzo, Russomanno, Ventre
- * Org.: 	UNISA - DIEM - Artificial Intelligence - Cognitive Robotics - Group 18
- * Date:    23 Nov, 2020
+ * Title:   object_say
+ * Author:   Fina, Puzo, Russomanno, Ventre
+ * Org.:   UNISA - DIEM - Artificial Intelligence - Cognitive Robotics - Group 18
+ * Date:   23 Nov, 2020
  *
  * This file implements a ROS node to generate the final sentence
  * after performing the object detection.
