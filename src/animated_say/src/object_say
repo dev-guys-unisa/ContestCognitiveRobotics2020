@@ -48,6 +48,9 @@ class ObjectSay(NaoqiNode):
         subsequently be pronounced by Pepper, taking into account the position of 
         the objects and their number.
         E.G. Pepper won't say "mouse, mouse", instead he'll say "two mouses".
+        
+        Args:
+            data (DetectionWithPose): side of the captured image, objects detected in the image
         """
         # Incrementing image received counter
         self.pictures += 1
