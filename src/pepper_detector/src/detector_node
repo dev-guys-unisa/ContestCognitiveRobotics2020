@@ -10,7 +10,6 @@ from detector import Detector
 import ros_numpy # pip3 install git+https://github.com/eric-wieser/ros_numpy
 from classmap import category_map as classmap
 
-#topic = "/detection"
 topic = "/pepper_detective"
 
 mydetector = None
@@ -56,11 +55,11 @@ def rcv_image(msg):
     image = ros_numpy.numpify(msg.image)
     if mydetector is None:
         rospy.loginfo("Model not already loaded, saving image in queue")
-        queue[msg.pose.data] = image #store in the queue
+        queue[msg.pose.data] = image # store in the queue
     else:
-        detect(msg.pose.data, image) #run inference
+        detect(msg.pose.data, image) # run inference
     
-    if arrived == 3: #once finished head movements, scan the queue
+    if arrived == 3: # once finished head movements, scan the queue
         while mydetector is None:
             rospy.loginfo("Model not already loaded")
         for pose,img in queue.items():
@@ -78,7 +77,6 @@ mydetector = Detector(DET_PATH)
 
 try:
     rospy.spin()
-
 except KeyboardInterrupt:
     print("Shutting down")
     
