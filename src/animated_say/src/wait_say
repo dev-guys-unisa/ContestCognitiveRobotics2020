@@ -1,3 +1,19 @@
+""" -------------------------------------------------------------------
+ *
+ * This module has been developed by Group 18 @ Cognitive Robotics DIEM.UNISA.
+ *
+ * Title:    wait_say
+ * Author:   Fina, Puzo, Russomanno, Ventre
+ * Org.:     UNISA - DIEM - Artificial Intelligence - Cognitive Robotics - Group 18
+ * Date:     23 Nov, 2020
+ *
+ * This file implements a ROS node to generate a pre-established sentence
+ * for Pepper to say while waiting for the loading f the images and the
+ * inference on them.
+ *
+ * -------------------------------------------------------------------
+ """
+
 #!/usr/bin/env python
 import time
 import rospy
@@ -19,6 +35,8 @@ class PepperTalk(NaoqiNode):
         pass
 
     def construc_msg(self):
+        # This function creates three different sentences to tell during the waiting time 
+        # (setup phase and loading of the model) and sets the speech speed
         self.msg = [
             "\RSPD=65\ Hi, ^start(animations/Stand/Gestures/Hey_6) let me see what I can find.",
             "\RSPD=65\ Ok, ^start(animations/Stand/BodyTalk/BodyTalk_3) now I'm going to look around a bit.",
@@ -38,6 +56,8 @@ class PepperTalk(NaoqiNode):
         self.speech.say(msg, {"bodyLanguageMode":"contextual"})
 
     def talking(self):
+        # Setting the three sentences with an intervall between them. Stop talking
+        # if the model is loaded
         try:
             for i in range(len(self.msg)):
                 self.say(self.msg[i])
