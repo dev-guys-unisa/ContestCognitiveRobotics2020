@@ -1,3 +1,23 @@
+
+""" -------------------------------------------------------------------
+ *
+ * This module has been developed by Group 18 @ Cognitive Robotics DIEM.UNISA.
+ *
+ * Title:    head_shake
+ * Author:   Fina, Puzo, Russomanno, Ventre
+ * Org.:     UNISA - DIEM - Artificial Intelligence - Cognitive Robotics - Group 18
+ * Date:     23 Nov, 2020
+ *
+ * This file implements a ROS node to generate the movement of the robot joints
+ * related to the head. In particular this node sets the angles and the speed to
+ * make possible the head's movements of Pepper.
+ * There is a setup phase that allow to set up the central position of the head
+ * with the body in order to avoid wrong movements. This phase is performed before
+ * the movements which lead the images acquisition.
+ *
+ * -------------------------------------------------------------------
+ """
+
 #!/usr/bin/env python
 import rospy
 from naoqi_bridge_msgs.msg import JointAnglesWithSpeed
