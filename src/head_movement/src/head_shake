@@ -48,7 +48,7 @@ setup = False
 cnt = 0
 
 while not rospy.is_shutdown():
-    sleep (20)
+    sleep (20) # Waiting time of 20 seconds for each movement
     if not setup:
         # This setup allows Pepper to turn in the starting position
         rospy.loginfo("Setup phase ..")
