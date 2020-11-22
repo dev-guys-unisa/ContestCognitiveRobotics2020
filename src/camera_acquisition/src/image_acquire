@@ -4,9 +4,8 @@ from sensor_msgs.msg import Image
 from std_msgs.msg import String
 from camera_acquisition.msg import ImageWithPose
 
-# Subscription topic
+# Subscription topics
 topic = "/pepper_robot/camera/front/camera/image_raw"
-#topic = "/camera_pc"
 topic_joint = "/pepper_pose"
 topic_image = "/image_capture"
 
@@ -15,11 +14,11 @@ class ImageRetriever:
   def __init__(self, topic, topic_joint, topic_image):
     self.catch = False
     self.pose = None
-    rospy.loginfo("Intialized Subcriber to topic %s", topic) 
+    rospy.loginfo("Intializing Subcriber to topic %s", topic) 
     self.image_sub = rospy.Subscriber(topic, Image, self.callback)
-    rospy.loginfo("Intialized Subcriber to topic %s", topic_joint) 
+    rospy.loginfo("Intializing Subcriber to topic %s", topic_joint) 
     self.image_joint = rospy.Subscriber(topic_joint, String, self.catch_callback)
-    rospy.loginfo("Intialized Publisher to topic %s", topic_image) 
+    rospy.loginfo("Intializing Publisher to topic %s", topic_image) 
     self.image_pub = rospy.Publisher(topic_image, ImageWithPose, queue_size=0)
 
   def callback(self, data):
