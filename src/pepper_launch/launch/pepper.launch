@@ -1,10 +1,15 @@
+
 <launch>
-    <node name="say" pkg="animated_say" type="object_say" output="screen"/>
-    <node name="visualization" pkg="pepper_detector" type="visualization_node" output="screen"/>
+    <node name="image_view" pkg="image_view" type="image_view" output="screen">
+        <remap from="image" to="/pepper_robot/camera/front/camera/image_raw" />
+    </node>
+    <node name="object_say" pkg="animated_say" type="object_say" output="screen"/>
+    <node name="wait_say" pkg="animated_say" type="wait_say" output="screen"/>
     <node name="detector" pkg="pepper_detector" type="detector_node" output="screen"/>
     <node name="acquire" pkg="camera_acquisition" type="image_acquire" output="screen"/>
     <node name="movement" pkg="head_movement" type="head_shake" output="screen"/>
     
+    <!--<node name="visualization" pkg="pepper_detector" type="visualization_node" output="screen"/>-->
     <!--<node name="stream" pkg="camera_acquisition" type="camera_stream" output="screen"/>-->
     <!--<node name="publisher" pkg="camera_publisher" type="publisher" output="screen"/>-->
 </launch>
