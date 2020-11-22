@@ -1,15 +1,32 @@
 #!/usr/bin/env python
+
+#TO REMOVE
+
+""" -------------------------------------------------------------------
+ *
+ * This module has been developed by Group 18 @ Cognitive Robotics DIEM.UNISA.
+ *
+ * Title:	camera_stream
+ * Author:	Fina, Puzo, Russomanno, Ventre
+ * Org.: 	UNISA - DIEM - Artificial Intelligence - Cognitive Robotics - Group 18
+ * Date:    23 Nov, 2020
+ *
+ * This file implements a ROS node which receives the stream of a camera and publish it.
+ * -------------------------------------------------------------------
+ """
+
+# -------- LOADING REQUIRED LIBRARIES --------
 import os
 import rospy
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 import cv2 as cv
 
-# Subscription topic
+# -------- TOPIC DECLARATION --------
 topic = "/pepper_robot/camera/front/camera/image_raw"
 
+# -------- CLASS DECLARATION --------
 class ImageRetriever:
-
   def __init__(self, topic):
     # CvBridge Object to convert Sensor_msgs Image to cv2 Image
     self.bridge = CvBridge()

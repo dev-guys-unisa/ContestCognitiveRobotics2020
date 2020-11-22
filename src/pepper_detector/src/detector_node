@@ -1,4 +1,20 @@
 #!/usr/bin/env python3
+
+""" -------------------------------------------------------------------
+ *
+ * This module has been developed by Group 18 @ Cognitive Robotics DIEM.UNISA.
+ *
+ * Title:	detector_node
+ * Author:	Fina, Puzo, Russomanno, Ventre
+ * Org.: 	UNISA - DIEM - Artificial Intelligence - Cognitive Robotics - Group 18
+ * Date:    23 Nov, 2020
+ *
+ * This file implements a ROS node which receives images and perform detection, 
+ * sending on a topic the objects of interest seen in the image.
+ * -------------------------------------------------------------------
+ """
+
+# -------- LOADING REQUIRED LIBRARIES --------
 import os
 import rospy
 from camera_acquisition.msg import ImageWithPose
@@ -7,71 +23,126 @@ from sensor_msgs.msg import Image
 from vision_msgs.msg import Detection2D, Detection2DArray, ObjectHypothesisWithPose
 from pepper_detector.msg import DetectionWithPose
 from detector import Detector
-import ros_numpy # pip3 install git+https://github.com/eric-wieser/ros_numpy
+import ros_numpy
 from classmap import category_map as classmap
 
-topic = "/pepper_detective"
+
+# -------- TOPICS --------
+topic_det = "/pepper_detective" # on which the node can publish the objects seen
+topic_acq = "/image_capture" # on which the node can receive the acquired images
+
+# -------- VARIABLES DECLARATION --------
+DEBUG = False
+MAX_IMAGES = 3
 
 mydetector = None
 queue = {}
 arrived = 0
 
-def detect(pose, image):
-    rospy.loginfo("Running inference...")
-    d_pose = DetectionWithPose()
-    d_pose.pose.data = pose
-    detections = mydetector(image)
-    """message = Detection2DArray()
+
+# -------- FUNCTIONS --------
+
+def publish_detections(detections):
+    """ This method is used for debugging purpose in order to show objects' boxes and labels on the captured image.
+
+    Args:
+        detections (dict): dictionary of detections
+    """
+    message = Detection2DArray()
     for clabel,score,box in zip(detections['detection_classes'], detections['detection_scores'], detections['detection_boxes']):
-        #rospy.loginfo("Seen {}:{}".format(str(int(clabel)),str(int(score))))
         d = Detection2D()
+        # recover boxes
         d.bbox.size_x = box[3]-box[1]
         d.bbox.size_y = box[2]-box[0]
         d.bbox.center.x = box[1]+d.bbox.size_x/2
         d.bbox.center.y = box[0]+d.bbox.size_y/2
+        # recover score and labels
         o = ObjectHypothesisWithPose()
         o.score = score
         o.id = clabel
+        # create message
         d.results.append(o)
         message.detections.append(d)
-        
-    d_pose.detections = message"""
+    pub_vis.publish(message)
 
+def detect(pose, image):
+    """ This method performs object detection on the given image and publishes the result on a topic.
+
+    Args:
+        pose (std_msg/String): side of the captured image
+        image (sensor_msgs/Image): captured image
+    """    
+
+    rospy.loginfo("Running inference...")
+    # create custom message containing pose and detection results (object lables)
+    d_pose = DetectionWithPose()
+    # in the "pose" field of the message insert the specific pose of the image
+    d_pose.pose.data = pose
+    # take the detections
+    detections = mydetector(image)
+
+    # extract from the detections' dict the labels of the objects
     labels = []
     for label in detections['detection_classes']:
         s = String()
-        s.data = classmap[label]
+        s.data = classmap[label] # map ID to label 
         labels.append(s)
 
+    # in the "detections" field of the message, insert the labels prevously obtained
     d_pose.detections = labels
+
+    # publish on the topic "pepper_detective"
     pub.publish(d_pose)
     rospy.loginfo("detection published")
 
+    # publish info for image visualization (DEBUG)
+    if DEBUG:
+        publish_detections(detections)
+        rospy.loginfo("boxes published")
+
 def rcv_image(msg):
+    """ This is the callback called when an image arrives on the "image_capture" topic.
+        It takes message and launches the detection if the model is loaded, o.w. store it
+        in a queue for processing it later.
+
+    Args:
+        msg (ImageWithPose): message sent on "image_capture" topic
+    """    
+
     rospy.loginfo("Image received")
     global arrived
-    arrived += 1
+    arrived += 1 #count how many images are already arrived
 
+    # convert image to numpy array
     image = ros_numpy.numpify(msg.image)
+
+    # if model isn't already loaded, store (pose, image) in the queue
     if mydetector is None:
         rospy.loginfo("Model not already loaded, saving image in queue")
-        queue[msg.pose.data] = image # store in the queue
+        queue[msg.pose.data] = image
+    # else run inference
     else:
-        detect(msg.pose.data, image) # run inference
+        detect(msg.pose.data, image)
     
-    if arrived == 3: # once finished head movements, scan the queue
+    # once image acquire is finished, scan the queue for processing remaining elements
+    if arrived == MAX_IMAGES: 
         while mydetector is None:
             rospy.loginfo("Model not already loaded")
         for pose,img in queue.items():
             detect(pose, img)
         queue.clear()
 
+# -------- MAIN --------
+
+# node initialization
 rospy.init_node('detector_node')
-pub = rospy.Publisher(topic, DetectionWithPose, queue_size=2)
-si = rospy.Subscriber("/image_capture", ImageWithPose, rcv_image, queue_size=5)
+pub = rospy.Publisher(topic_det, DetectionWithPose, queue_size=2)
+si = rospy.Subscriber(topic_acq, ImageWithPose, rcv_image, queue_size=5)
+rospy.loginfo ("Node /detector_node created, publisher on {} and subscriber of {}".format(topic_det, topic_acq))
+if DEBUG:
+    pub_vis = rospy.Publisher("image_boxes", Detection2DArray, queue_size=2)
 
-rospy.loginfo ("Node /detector_node created, loading object detector")
-
+# model loading 
 DET_PATH=os.path.join(os.path.dirname(__file__),'efficientdet_d1_coco17_tpu-32')
 mydetector = Detector(DET_PATH)
 
