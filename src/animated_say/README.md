@@ -19,6 +19,8 @@ The executables are contained in the ```src/``` folder which contains the two no
 
 * The ```object_say``` script takes care of generating the final sentence after performing object detection.
 * The ```wait_say``` script takes care of sending pre-established sentences to Pepper to say while waiting for the images to be loaded and for the inference on them.
+
+*The animations are taken from [here](http://doc.aldebaran.com/2-1/naoqi/audio/alanimatedspeech_advanced.html)*
 ____
 
 ##### Group 18
