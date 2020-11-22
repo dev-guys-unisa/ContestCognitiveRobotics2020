@@ -1,3 +1,18 @@
+""" -------------------------------------------------------------------
+ *
+ * This module has been developed by Group 18 @ Cognitive Robotics DIEM.UNISA.
+ *
+ * Title:	object_say
+ * Author:	Fina, Puzo, Russomanno, Ventre
+ * Org.: 	UNISA - DIEM - Artificial Intelligence - Cognitive Robotics - Group 18
+ * Date:    23 Nov, 2020
+ *
+ * This file implements a ROS node to generate the final sentence
+ * after performing the object detection.
+ *
+ * -------------------------------------------------------------------
+ """
+
 #!/usr/bin/env python
 import time
 import rospy
@@ -55,6 +70,7 @@ class ObjectSay(NaoqiNode):
             rospy.loginfo(self.msg)
 
     def _is_vowel(self, char):
+        # This function checks if the next word starts with a vowel
         if (char == 'a' or char == 'e' or char == 'i' or char == 'o' or char == 'u'):
             return True
         else:
