@@ -1,5 +1,0 @@
-animated_say
-/home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/.private/animated_say/cmake.lock /home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/./cmake.lock
-/home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/.private/animated_say/share/animated_say/cmake/animated_sayConfig.cmake /home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/share/animated_say/cmake/animated_sayConfig.cmake
-/home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/.private/animated_say/share/animated_say/cmake/animated_sayConfig-version.cmake /home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/share/animated_say/cmake/animated_sayConfig-version.cmake
-/home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/.private/animated_say/lib/pkgconfig/animated_say.pc /home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/lib/pkgconfig/animated_say.pc

@@ -1,5 +1,0 @@
-pepper_robot/pepper_description
-/home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/.private/pepper_description/cmake.lock /home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/./cmake.lock
-/home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/.private/pepper_description/share/pepper_description/cmake/pepper_descriptionConfig-version.cmake /home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/share/pepper_description/cmake/pepper_descriptionConfig-version.cmake
-/home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/.private/pepper_description/share/pepper_description/cmake/pepper_descriptionConfig.cmake /home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/share/pepper_description/cmake/pepper_descriptionConfig.cmake
-/home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/.private/pepper_description/lib/pkgconfig/pepper_description.pc /home/giovannipuzo/Scrivania/CognitiveRobotics/ContestCognitiveRobotics2020/devel/lib/pkgconfig/pepper_description.pc
