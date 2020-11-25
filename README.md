@@ -88,8 +88,10 @@ We have provided a package containing a particular launch file which takes care 
 So you just need to run the following command and see the robot at work:
 
 ```bash
-roslaunch pepper_launch pepper.launch
+roslaunch pepper_launch pepper.launch pip:=*ipaddress*
 ```
+*Be Careful: Instead of ```*ipaddress*``` enter Pepper's ip address.*
+
 *Hint: use the tab key to auto-complete commands*
 ___
 ##### Group 18
