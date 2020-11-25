@@ -1,18 +1,18 @@
 #!/usr/bin/env python
+# -------------------------------------------------------------------
+# *
+# * This module has been developed by Group 18 @ Cognitive Robotics DIEM.UNISA.
+# *
+# * Title:	detector_node
+# * Author:	Fina, Puzo, Russomanno, Ventre
+# * Org.: 	UNISA - DIEM - Artificial Intelligence - Cognitive Robotics - Group 18
+# * Date:    23 Nov, 2020
+# *
+# * This file implements a ROS node able to capture an image when the robot
+# * finishes its movement in a desired position.
+# *
+# * -------------------------------------------------------------------
 
-""" -------------------------------------------------------------------
- *
- * This module has been developed by Group 18 @ Cognitive Robotics DIEM.UNISA.
- *
- * Title:	detector_node
- * Author:	Fina, Puzo, Russomanno, Ventre
- * Org.: 	UNISA - DIEM - Artificial Intelligence - Cognitive Robotics - Group 18
- * Date:    23 Nov, 2020
- *
- * This file implements a ROS node able to capture an image when the robot
- * finishes its movement in a desired position.
- * -------------------------------------------------------------------
- """
 
 # -------- LOADING REQUIRED LIBRARIES --------
 import rospy
