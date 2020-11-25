@@ -1,17 +1,18 @@
-""" -------------------------------------------------------------------
- *
- * This module has been developed by Group 18 @ Cognitive Robotics DIEM.UNISA.
- *
- * Title:	detector.py
- * Author:	Fina, Puzo, Russomanno, Ventre
- * Org.: 	UNISA - DIEM - Artificial Intelligence - Cognitive Robotics - Group 18
- * Date:    23 Nov, 2020
- *
- * This file implements the base class used to perform detection, which allows to
- * load a pre-trained Tensorflow object detector model and perform detection on a
- * a given image.
- * -------------------------------------------------------------------
- """
+# -------------------------------------------------------------------
+# *
+# * This module has been developed by Group 18 @ Cognitive Robotics DIEM.UNISA.
+# *
+# * Title:	  detector.py
+# * Author:	 Fina, Puzo, Russomanno, Ventre
+# * Org.: 	  UNISA - DIEM - Artificial Intelligence - Cognitive Robotics - Group 18
+# * Date:    23 Nov, 2020
+# *
+# * This file implements the base class used to perform detection, which allows to
+# * load a pre-trained Tensorflow object detector model and perform detection on a
+# * a given image.
+# *
+# * -------------------------------------------------------------------
+ 
 
 # -------- LOADING REQUIRED LIBRARIES --------
 import cv2
