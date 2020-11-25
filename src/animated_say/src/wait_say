@@ -1,20 +1,19 @@
-""" -------------------------------------------------------------------
- *
- * This module has been developed by Group 18 @ Cognitive Robotics DIEM.UNISA.
- *
- * Title:    wait_say
- * Author:   Fina, Puzo, Russomanno, Ventre
- * Org.:     UNISA - DIEM - Artificial Intelligence - Cognitive Robotics - Group 18
- * Date:     23 Nov, 2020
- *
- * This file implements a ROS node to generate a pre-established sentence
- * for Pepper to say while waiting for the loading f the images and the
- * inference on them.
- *
- * -------------------------------------------------------------------
- """
-
 #!/usr/bin/env python
+# -------------------------------------------------------------------
+# *
+# * This module has been developed by Group 18 @ Cognitive Robotics DIEM.UNISA.
+# *
+# * Title:    wait_say
+# * Author:   Fina, Puzo, Russomanno, Ventre
+# * Org.:     UNISA - DIEM - Artificial Intelligence - Cognitive Robotics - Group 18
+# * Date:     23 Nov, 2020
+# *
+# * This file implements a ROS node to generate a pre-established sentence
+# * for Pepper to say while waiting for the loading f the images and the
+# * inference on them.
+# *
+# * -------------------------------------------------------------------
+
 import time
 import rospy
 from naoqi_driver import NaoqiNode
@@ -35,12 +34,12 @@ class PepperTalk(NaoqiNode):
         pass
 
     def construc_msg(self):
-        # This function creates three different sentences to tell during the waiting time 
+        # This function creates different sentences to tell during the waiting time 
         # (setup phase and loading of the model) and sets the speech speed
         self.msg = [
-            "\RSPD=65\ Hi, ^start(animations/Stand/Gestures/Hey_6) let me see what I can find.",
-            "\RSPD=65\ Ok, ^start(animations/Stand/BodyTalk/BodyTalk_3) now I'm going to look around a bit.",
-            "\RSPD=65\ Give ^start(animations/Stand/BodyTalk/BodyTalk_22) me a minute, I'm working on it."
+            "\RSPD=70\ Hi, ^start(animations/Stand/Gestures/Hey_6) let me see what I can find.",
+            "\RSPD=70\ Ok, ^start(animations/Stand/BodyTalk/BodyTalk_3) now I'm going to look around a bit.",
+            "\RSPD=70\ Give ^start(animations/Stand/BodyTalk/BodyTalk_22) me a minute, I'm working on it."
         ]
 
     def init_subs(self, topic):
@@ -56,19 +55,20 @@ class PepperTalk(NaoqiNode):
         self.speech.say(msg, {"bodyLanguageMode":"contextual"})
 
     def talking(self):
-        # Setting the three sentences with an intervall between them. Stop talking
-        # if the model is loaded
+        # Setting the three sentences with an intervall between them. 
+        # Stop talking if the model is loaded.
         try:
             for i in range(len(self.msg)):
                 self.say(self.msg[i])
-                time.sleep(5)
+                time.sleep(10)
         except TalkException:
             rospy.loginfo("Model loaded")
-        finally:
-            self.say("\RSPD=65\ I think ^start(animations/Stand/Gestures/Explain_4) I saw something, now I'll tell you what.")
+            
         
     def callback(self, data):
+        self.say_sub.unregister()
         raise TalkException("Model Ready, Stop Talking")
+        self.say("\RSPD=70\ I think ^start(animations/Stand/Gestures/Explain_4) I saw something, I'll tell you what in a second.")
 
 if __name__ == "__main__":
     pepper_say = PepperTalk()
