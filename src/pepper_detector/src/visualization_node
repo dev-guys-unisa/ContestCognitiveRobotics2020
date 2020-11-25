@@ -1,19 +1,17 @@
 #!/usr/bin/env python3
-
-# TO REMOVE ???
-
-""" -------------------------------------------------------------------
- *
- * This module has been developed by Group 18 @ Cognitive Robotics DIEM.UNISA.
- *
- * Title:	visualization_node
- * Author:	Fina, Puzo, Russomanno, Ventre
- * Org.: 	UNISA - DIEM - Artificial Intelligence - Cognitive Robotics - Group 18
- * Date:    23 Nov, 2020
- *
- * This file implements a ROS node which receives detections and shows them on the image.
- * -------------------------------------------------------------------
- """
+# -------------------------------------------------------------------
+# *
+# * This module has been developed by Group 18 @ Cognitive Robotics DIEM.UNISA.
+# *
+# * Title:	visualization_node
+# * Author:	Fina, Puzo, Russomanno, Ventre
+# * Org.: 	UNISA - DIEM - Artificial Intelligence - Cognitive Robotics - Group 18
+# * Date:    23 Nov, 2020
+# *
+# * This file implements a ROS node which receives detections and shows them on the image.
+# *
+# * -------------------------------------------------------------------
+ 
 
 # -------- LOADING REQUIRED LIBRARIES --------
 import os
