@@ -9,6 +9,7 @@
 # * Date:    23 Nov, 2020
 # *
 # * This file implements a ROS node which receives the stream of a camera and publish it.
+# *
 # * -------------------------------------------------------------------
 
 # -------- LOADING REQUIRED LIBRARIES --------
