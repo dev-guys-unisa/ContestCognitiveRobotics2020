@@ -71,14 +71,14 @@ class NaoqiNode(Thread):
         rospy.init_node(self.__name)
 
         # If user has set parameters for ip and port use them as default
-        default_ip = rospy.get_param("~pip", "10.0.1.230")
+        default_ip = rospy.get_param("~pip", "127.0.0.1")
         default_port = rospy.get_param("~pport", 9559)
 
         # get connection from command line:
         from argparse import ArgumentParser
         parser = ArgumentParser()
         parser.add_argument("--pip", dest="pip", default=default_ip,
-                          help="IP/hostname of parent broker. Default is 10.0.1.230.", metavar="IP")
+                          help="IP/hostname of parent broker. Default is 127.0.0.1.", metavar="IP")
         parser.add_argument("--pport", dest="pport", default=default_port, type=int,
                           help="port of parent broker. Default is 9559.", metavar="PORT")
 
