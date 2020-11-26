@@ -67,8 +67,8 @@ class PepperTalk(NaoqiNode):
         
     def callback(self, data):
         self.say_sub.unregister()
-        raise TalkException("Model Ready, Stop Talking")
         self.say("\RSPD=70\ I think ^start(animations/Stand/Gestures/Explain_4) I saw something, I'll tell you what in a second.")
+        raise TalkException("Model Ready, Stop Talking")
 
 if __name__ == "__main__":
     pepper_say = PepperTalk()
