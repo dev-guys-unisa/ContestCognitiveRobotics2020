@@ -75,21 +75,13 @@ echo 'export PYTHONPATH=${PYTHONPATH}:$D/lib/python2.7/site-packages' >> devel/s
 echo 'export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:$D/lib' >> devel/setup.bash
 source devel/setup.bash
 ```
-#### Pepper Bringup
-Now you can start the live demo and the first thing to do is the ```Pepper Bringup```, so as to launch the roscore and the nodes necessary for communication with the robot:
-```shell
-roslaunch pepper_bringup pepper_full_py.launch nao_ip:=*ipaddress*
-```
-*Be Careful: Instead of ```*ipaddress*``` enter Pepper's ip address.*
-
 #### Pepper Launch
-We have provided a package containing a particular launch file which takes care of calling all the nodes necessary to perform the required task, so it is not necessary to open more than one terminal and spawn commands to call nodes.
 
-So you just need to run the following command and see the robot at work:
-
-```bash
-roslaunch pepper_launch pepper.launch pip:=*ipaddress*
+Now it is possible to launch a live demo to see Pepper's behavior live. We have decided to integrate the ```pepper_bringup``` command into a launch file built for our purpose so as to avoid endlessly opening and spawning terminal windows. The only thing to do, in fact, is to run the following command:
+```shell
+roslaunch pepper_launch pepper.launch pip:=*ipaddress* nao_ip:=*ipaddress*
 ```
+
 *Be Careful: Instead of ```*ipaddress*``` enter Pepper's ip address.*
 
 *Hint: use the tab key to auto-complete commands*
