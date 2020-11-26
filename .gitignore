@@ -69,12 +69,10 @@ qtcreator-*
 
 # Catkin custom files
 CATKIN_IGNORE
+.catkin_tools/
 
 ### VisualStudioCode ###
-.vscode/*
-!.vscode/tasks.json
-!.vscode/launch.json
-*.code-workspace
+.vscode
 
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
