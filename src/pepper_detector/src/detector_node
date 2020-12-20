@@ -43,7 +43,8 @@ arrived = 0
 # -------- FUNCTIONS --------
 
 def publish_detections(detections):
-    """ This method is used for debugging purpose in order to show objects' boxes and labels on the captured image.
+    """ 
+    This method is used for debugging purpose in order to show objects' boxes and labels on the captured image.
 
     Args:
         detections (dict): dictionary of detections
@@ -66,7 +67,8 @@ def publish_detections(detections):
     pub_vis.publish(message)
 
 def detect(pose, image):
-    """ This method performs object detection on the given image and publishes the result on a topic.
+    """ 
+    This method performs object detection on the given image and publishes the result on a topic.
 
     Args:
         pose (std_msg/String): side of the captured image
@@ -101,9 +103,10 @@ def detect(pose, image):
         rospy.loginfo("boxes published")
 
 def rcv_image(msg):
-    """ This is the callback called when an image arrives on the "image_capture" topic.
-        It takes message and launches the detection if the model is loaded, o.w. store it
-        in a queue for processing it later.
+    """ 
+    This is the callback called when an image arrives on the "image_capture" topic.
+    It takes message and launches the detection if the model is loaded, o.w. store it
+    in a queue for processing it later.
 
     Args:
         msg (ImageWithPose): message sent on "image_capture" topic

@@ -23,8 +23,13 @@ import numpy as np
 
 # -------- CLASS DECLARATION --------
 class Detector():
+    """
+    The Detector class is responsible of load a pretrained model and run detection on images
+    """
+
     def __init__(self,model_path):
-        """This method initializes the object detector, loading a pre-trained model saved in a particular path on the file system
+        """
+        This method initializes the object detector, loading a pre-trained model saved in a particular path on the file system
 
         Args:
             model_path (String): absolute path to the saved model
@@ -32,7 +37,8 @@ class Detector():
         self.detect_fn = tf.saved_model.load(model_path)
 
     def __call__(self, img, threshold=0.5):
-        """This method allows to run detections on the image passed as argument. All the detections above the threshold are returned.
+        """
+        This method allows to run detections on the image passed as argument. All the detections above the threshold are returned.
 
         Args:
             img (sensor_msgs/Image): image on which the detector has to run inference

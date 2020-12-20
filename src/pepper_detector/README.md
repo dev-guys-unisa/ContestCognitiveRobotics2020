@@ -17,6 +17,7 @@ The executables are contained in the ```src/``` folder which contains the node u
 #### Executables
 
 * The ```detector_node``` script takes care of receiving the image by subscribing to the related topic and performing an object detection on it according to the model present in the ```src/``` folder to then manage a custom message, which is DetectionWithPose, and publish it on the topic ```/pepper_detective```.
+* The ```detector.py``` script takes care of initialize a pretrained model and perform the detection on images passed as parameter.
 
 #### Messages
 
