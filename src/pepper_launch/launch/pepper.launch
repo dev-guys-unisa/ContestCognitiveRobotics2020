@@ -1,19 +1,23 @@
 <launch>    
     <node name="rqt_image_view" pkg="rqt_image_view" type="rqt_image_view" args="/pepper_robot/camera/front/camera/image_raw" output="screen"/>
     
+    <!-- The two following parameters are needed to connect to the Pepper Robot -->
     <arg name="nao_ip" default="10.0.1.230"/>
     <arg name="pip" default="10.0.1.230"/>
     
+    <!-- Recalling the launch file to bring up pepper connecting to the provided IP -->
     <include file="$(find pepper_bringup)/launch/pepper_full_py.launch">
         <arg name="nao_ip" value="$(arg nao_ip)"/>
     </include>
     
+    <!-- All the nodes implmented are now launched in order to perform the object detection with Pepper -->
     <node name="object_say" pkg="animated_say" type="object_say" output="screen" args="--pip $(arg pip)"/>
     <node name="wait_say" pkg="animated_say" type="wait_say" output="screen" args="--pip $(arg pip)"/>
     <node name="detector" pkg="pepper_detector" type="detector_node" output="screen"/>
     <node name="acquire" pkg="camera_acquisition" type="image_acquire" output="screen"/>
     <node name="movement" pkg="head_movement" type="head_shake" output="screen"/>
     
-    <!--<node name="visualization" pkg="pepper_detector" type="visualization_node" output="screen"/>-->
-    <!--<node name="publisher" pkg="camera_publisher" type="publisher" output="screen"/>-->
+    <!-- <node name="visualization" pkg="pepper_detector" type="visualization_node" output="screen"/> -->
+    <!-- <node name="publisher" pkg="camera_publisher" type="publisher" output="screen"/> -->
+
 </launch>
