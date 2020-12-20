@@ -14,6 +14,7 @@ tar xf pynaoqi-python2.7-2.5.7.1-linux64.tar.gz
 rm pynaoqi-python2.7-2.5.7.1-linux64.tar.gz
 D=$(realpath pynaoqi-python2.7-2.5.7.1-linux64)
 cd ..
+
 # Workspace setup:
 mkdir -p pepper-ros-test/src
 cd pepper-ros-test/src
@@ -34,7 +35,6 @@ make pepper_meshes_meshes # Accept license and wait for download (French law)
 cd ../..
 ln -s $(realpath devel/.private/pepper_meshes/tmp/meshes) src/pepper_meshes
 source devel/setup.bash
-
 
 roslaunch pepper_bringup pepper_full_py.launch nao_ip:=10.0.1.230
 
