@@ -3,7 +3,7 @@
 ![pow](https://img.shields.io/badge/Powered%20By-dev--guys--unisa-blue)
 ![ros](https://img.shields.io/badge/ROS%20Version-melodic-orange)
 
-The goal of this package is to create a node that can manage Pepper's speech by capturing the detections made by the model and saying what it was able to see.
+The goal of this package is to create a node that can manage Pepper's speech by capturing the detections made by the object detection model and saying what it was able to see.
 ___
 
 # Package Structure
