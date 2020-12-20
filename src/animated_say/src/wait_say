@@ -14,18 +14,21 @@
 # *
 # * -------------------------------------------------------------------
 
+# -------- LOADING REQUIRED LIBRARIES --------
 import time
 import rospy
 from naoqi_driver import NaoqiNode
 from collections import Counter
 from pepper_detector.msg import DetectionWithPose
 
+# -------- CLASS DECLARATION --------
 class TalkException(Exception):
     """
     The TalkException class extends Exception
     """
     pass
 
+# -------- CLASS DECLARATION --------
 class PepperTalk(NaoqiNode):
     """
     The PepperTalk class extends NaoqiNode in order to handle with Pepper
@@ -106,6 +109,8 @@ class PepperTalk(NaoqiNode):
         self.say_sub.unregister()
         self.say("\RSPD=70\ I think ^start(animations/Stand/Gestures/Explain_4) I saw something, I'll tell you what in a second.")
         raise TalkException("Model Ready, Stop Talking")
+
+# -------- MAIN --------
 
 if __name__ == "__main__":
     pepper_say = PepperTalk()

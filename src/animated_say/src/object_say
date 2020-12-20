@@ -12,13 +12,15 @@
 # * after performing the object detection.
 # *
 # * -------------------------------------------------------------------
- 
+
+# -------- LOADING REQUIRED LIBRARIES --------
 import time
 import rospy
 from naoqi_driver import NaoqiNode
 from collections import Counter
 from pepper_detector.msg import DetectionWithPose
 
+# -------- CLASS DECLARATION --------
 class ObjectSay(NaoqiNode):
     """
     The ObjectSay class is responsible for interacting with Pepper 
@@ -111,6 +113,8 @@ class ObjectSay(NaoqiNode):
             return True
         else:
             return False
+
+# -------- MAIN --------
 
 if __name__ == "__main__":
     obj = ObjectSay()

@@ -24,30 +24,48 @@ topic = "/pepper_robot/camera/front/camera/image_raw"
 
 # -------- CLASS DECLARATION --------
 class ImageRetriever:
-  def __init__(self, topic):
-    # CvBridge Object to convert Sensor_msgs Image to cv2 Image
-    self.bridge = CvBridge()
-    self.topic = topic
-    # Subscription as a Subscriber to the topic /pepper_robot/camera/front/camera/image_raw 
-    rospy.loginfo("Intialized Subcriber to topic %s", self.topic) 
-    self.image_sub = rospy.Subscriber(topic, Image, self.callback)
+    """
+    The ImageRetriever class is responsible to show the video captured from the camera
+    """
 
-  def callback(self, data):
-    try:
-      # Conversion to cv2 image using bgr8 encoding 
-      frame = self.bridge.imgmsg_to_cv2(data, "bgr8")
-    except CvBridgeError as e:
-      print(e)
-    # Showing frame    
-    cv.imshow("Camera_Stream", frame)
+    def __init__(self, topic):
+      """
+      The ImageRetriever class constructor
 
+      Args:
+        topic (string): the topic to which the node must be subscribed
+      """
+      # CvBridge Object to convert Sensor_msgs Image to cv2 Image
+      self.bridge = CvBridge()
+      self.topic = topic
+      # Subscription as a Subscriber to the topic /pepper_robot/camera/front/camera/image_raw 
+      rospy.loginfo("Intialized Subcriber to topic %s", self.topic) 
+      self.image_sub = rospy.Subscriber(topic, Image, self.callback)
+
+    def callback(self, data):
+      """
+      The callback() function receives data from the topic above and is
+      able to popup a window and show the images coming from the Pepper's camera
+      
+      Args:
+        data (sensor_msgs/Image): the image coming from the camera
+      """
+      try:
+        # Conversion to cv2 image using bgr8 encoding 
+        frame = self.bridge.imgmsg_to_cv2(data, "bgr8")
+      except CvBridgeError as e:
+        print(e)
+      # Showing frame    
+      cv.imshow("Camera_Stream", frame)
+
+# -------- MAIN --------
 if __name__ == '__main__':
-  # Rospy Node
-  rospy.init_node("camera_stream")
-  rospy.loginfo("Intializing /camera_stream node")
-  ir = ImageRetriever(topic)
-  try:
-      rospy.spin()
-  except KeyboardInterrupt:
-      print("Shutting down")
-  cv.destroyAllWindows()
+    # Rospy Node
+    rospy.init_node("camera_stream")
+    rospy.loginfo("Intializing /camera_stream node")
+    ir = ImageRetriever(topic)
+    try:
+        rospy.spin()
+    except KeyboardInterrupt:
+        print("Shutting down")
+    cv.destroyAllWindows()
