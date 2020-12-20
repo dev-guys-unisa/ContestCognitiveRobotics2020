@@ -17,6 +17,7 @@
 # *
 # * -------------------------------------------------------------------
 
+# -------- LOADING REQUIRED LIBRARIES --------
 import rospy
 from naoqi_bridge_msgs.msg import JointAnglesWithSpeed
 from std_msgs.msg import String
@@ -33,6 +34,7 @@ rospy.loginfo("Created publisher to the /pepper_robot/pose/joint_angles topic")
 rospy.loginfo("Created publisher to the /pepper_pose topic")
 
 # Defining message to be published
+# Angles are treated in terms of pitch and yaw
 s = JointAnglesWithSpeed()
 s.joint_names = ['HeadPitch', 'HeadYaw']
 s.relative = 0
@@ -45,6 +47,12 @@ flag = [False, False, False]
 setup = False
 cnt = 0
 
+# In order:
+# - The setup phase includes sending the same position to make Pepper
+#   turn into the starting position
+# - The first movement sees Pepper turn the head to the left side
+# - The second movement sees Pepper turn the head to the right side
+# - The third and the last one sees Pepper turn the head into the starting position
 while not rospy.is_shutdown():
     sleep (20) # Waiting time of 20 seconds for each movement
     if not setup:
