@@ -2,7 +2,7 @@
 ![pow](https://img.shields.io/badge/Powered%20By-dev--guys--unisa-blue)
 ![ros](https://img.shields.io/badge/ROS%20Version-melodic-orange)
 
-This is a repository created for the *mid-term project work* related to the "Cognitive Robotics" subject at the University of Salerno.
+This is a repository created for the *project work* related to the "Cognitive Robotics" subject at the University of Salerno.
 ___
 # Group Members
 
@@ -35,16 +35,16 @@ Model name | Speed (ms) | COCO mAP | Outputs
 [efficientdet_d1_coco17_tpu-32](http://download.tensorflow.org/models/object_detection/tf2/20200711/efficientdet_d1_coco17_tpu-32.tar.gz) | 54 | 38.4 | Boxes
 ___
 
-# Setup workspace
+# Getting Started 
 To be able to use this architecture it is necessary to have the Python ```pynaoqi``` libraries available by running some simple commands from the terminal. Here are some startup operations to perform, before starting pepper roslaunch.
 
 #### Python NaoQi Download & Setup
-We get the key and the sdk package from the following links.
+We get the *key* and the *sdk package* from the following links.
 ```shell
 sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 sudo apt install -y ros-melodic-octomap ros-melodic-octomap-msgs ros-melodic-rgbd-launch ros-melodic-camera-info-manager-py
 ```
-Now we can download the libraries needed to connect to Pepper in our workspace. So we need to download the Python package for NaoQi and export the necessary paths pointing to it.
+Now we can download the libraries needed to connect to Pepper in our workspace. So we need to download the Python package for *NaoQi* and export the necessary paths pointing to it.
 ```shell
 cd ~ # Go to the home directory
 wget https://community-static.aldebaran.com/resources/2.5.10/Python%20SDK/pynaoqi-python2.7-2.5.7.1-linux64.tar.gz
@@ -52,7 +52,7 @@ tar xf pynaoqi-python2.7-2.5.7.1-linux64.tar.gz
 rm pynaoqi-python2.7-2.5.7.1-linux64.tar.gz
 D=$(realpath pynaoqi-python2.7-2.5.7.1-linux64)
 ```
-This operation allow us to use the PyNaoQi library to develop the nodes.
+This operation allow us to use the [*PyNaoQi SDK*](http://doc.aldebaran.com/2-5/dev/python/index.html) to develop the nodes.
 ___
 # How to launch a Demo
 Here are some fundamental indications to launch a demo of the developed architecture.
@@ -67,6 +67,7 @@ At this point the workspace must be compiled before it can be launched using the
 cd ~/ContestCognitiveRobotics2020
 catkin build
 ```
+
 #### Config file setup
 The compiler will do its job correctly and it will therefore be necessary to modify the ```setup.bash``` file before you can start Pepper bringup. This can be done by launching the two commands from the terminal, making sure that the temporary variable ```$D``` is correctly set and points to the previously downloaded ```pynaoqi``` package:
 ```shell
@@ -75,12 +76,15 @@ echo 'export PYTHONPATH=${PYTHONPATH}:$D/lib/python2.7/site-packages' >> devel/s
 echo 'export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:$D/lib' >> devel/setup.bash
 source devel/setup.bash
 ```
+*Recall that it is necessary to link these two variables to the downloaded NaoQi SDK.*
+
 #### Pepper Launch
 
-Now it is possible to launch a live demo to see Pepper's behavior live. We have decided to integrate the ```pepper_bringup``` command into a launch file built for our purpose so as to avoid endlessly opening and spawning terminal windows. The only thing to do, in fact, is to run the following command:
+Now it is possible to launch a live demo to see Pepper's behavior live. To make things easier to run, we have decided to integrate the ```pepper_bringup``` command into a launch file built for our purpose so as to avoid endlessly opening and spawning terminal windows. The only thing to do, in fact, is to run the following command:
 ```shell
 roslaunch pepper_launch pepper.launch pip:=*ipaddress* nao_ip:=*ipaddress*
 ```
+As described in the related launch package this command will take care of launching all the nodes needed to run the demo without problems. Then every node foreseen by the architecture described above will be called.
 
 *Be Careful: Instead of ```*ipaddress*``` enter Pepper's ip address.*
 
