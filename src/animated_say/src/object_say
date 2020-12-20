@@ -20,24 +20,46 @@ from collections import Counter
 from pepper_detector.msg import DetectionWithPose
 
 class ObjectSay(NaoqiNode):
+    """
+    The ObjectSay class is responsible for interacting with Pepper 
+    to make him able to tell all the objects he has seen through the camera
+    """
 
     def __init__(self):
+        """
+        The ObjectSay class constructor
+        """
         NaoqiNode.__init__(self, 'object_say')
-        self.connectNaoqi()
+        self.connect_naoqi()
         self.pictures = 0
         self.msg = ""
         self.counter = Counter()
         pass
 
     def init_subs(self, topic):
+        """
+        The init_subs() function initialize the ROS subscriber responsible to detect poses
+        
+        Args:
+            topic (string): the topic to which the node must be subscribed
+        """
         # Init subscriber for receiving detections
         self.say_sub = rospy.Subscriber(topic, DetectionWithPose, self.callback)
 
-    def connectNaoqi(self):
+    def connect_naoqi(self):
+        """
+        The connect_naoqi() function attaches the ALAnimatedSpeech proxy
+        """
         # Speech Proxy attachment
         self.speech = self.get_proxy("ALAnimatedSpeech")
 
     def say(self, msg):
+        """
+        The say() function is responsible to use the proxy and send phrases that Pepper has to say
+        
+        Args:
+        msg (string): the phrase that Pepper must say
+        """
         # Sending phrase and bodyLanguage to Pepper
         self.speech.say(msg, {"bodyLanguageMode":"contextual"})
         
@@ -64,14 +86,26 @@ class ObjectSay(NaoqiNode):
                 self.msg += "an " if self._is_vowel(x[0]) else "a "
                 self.msg += x + ", "
             else:
+                # Plural if the objects are more than one
                 self.msg += str(self.counter[x]) + " " + x + "s, "
         self.msg += "and nothing more. "
         self.counter.clear()
+        # The message is constructed and Pepper can say it
         if self.pictures == 3:
             self.say(self.msg)
             rospy.loginfo(self.msg)
 
     def _is_vowel(self, char):
+        """
+        The private function _is_vowel() is an helper to better construct the 
+        message pepper should speak in the callback () function.
+
+        Args:
+            char (string): single caracter to determine if it is a vowel or not
+        
+        Returns:
+            boolean: True if char is a vowel, False otherwise
+        """
         # This function checks if the next word starts with a vowel
         if (char == 'a' or char == 'e' or char == 'i' or char == 'o' or char == 'u'):
             return True

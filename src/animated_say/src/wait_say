@@ -21,19 +21,31 @@ from collections import Counter
 from pepper_detector.msg import DetectionWithPose
 
 class TalkException(Exception):
+    """
+    The TalkException class extends Exception
+    """
     pass
 
 class PepperTalk(NaoqiNode):
-
+    """
+    The PepperTalk class extends NaoqiNode in order to handle with Pepper
+    proxies available in the NaoQi Module
+    """
     def __init__(self):
+        """
+        The PepperTalk class constructor
+        """
         NaoqiNode.__init__(self, 'wait_say')
-        self.connectNaoqi()
+        self.connect_naoqi()
         # Tracks the model initialization
-        self.construc_msg()
+        self.construct_msg()
         self.talking()
         pass
 
-    def construc_msg(self):
+    def construct_msg(self):
+        """
+        The construct_msg() function initializes the msgs array that Pepper has to say
+        """
         # This function creates different sentences to tell during the waiting time 
         # (setup phase and loading of the model) and sets the speech speed
         self.msg = [
@@ -43,18 +55,37 @@ class PepperTalk(NaoqiNode):
         ]
 
     def init_subs(self, topic):
+        """
+        The init_subs() function initialize the ROS subscriber responsible to detect poses
+        
+        Args:
+            topic (string): the topic to which the node must be subscribed
+        """
         # Init subscriber for receiving detections
         self.say_sub = rospy.Subscriber(topic, DetectionWithPose, self.callback)
 
-    def connectNaoqi(self):
+    def connect_naoqi(self):
+        """
+        The connect_naoqi() function attaches the ALAnimatedSpeech proxy
+        """
         # Speech Proxy attachment
         self.speech = self.get_proxy("ALAnimatedSpeech")
 
     def say(self, msg):
+        """
+        The say() function is responsible to use the proxy and send phrases that Pepper has to say
+        
+        Args:
+        msg (string): the phrase that Pepper must say
+        """
         # Sending phrase and bodyLanguage to Pepper
         self.speech.say(msg, {"bodyLanguageMode":"contextual"})
 
     def talking(self):
+        """
+        The talking() function makes Pepper able to talk and say something until an exception is caught or
+        all the phrases are said
+        """
         # Setting the three sentences with an intervall between them. 
         # Stop talking if the model is loaded.
         try:
@@ -66,6 +97,12 @@ class PepperTalk(NaoqiNode):
             
         
     def callback(self, data):
+        """
+        The callback() function is responsible to make Pepper stop talking and raise an Exception
+
+        Raises:
+        TalkException: If the Object Detection model is ready, then stop talking()
+        """
         self.say_sub.unregister()
         self.say("\RSPD=70\ I think ^start(animations/Stand/Gestures/Explain_4) I saw something, I'll tell you what in a second.")
         raise TalkException("Model Ready, Stop Talking")
