@@ -19,6 +19,7 @@ import rospy
 from naoqi_driver import NaoqiNode
 from collections import Counter
 from pepper_detector.msg import DetectionWithPose
+from pattern.en import pluralize as pl
 
 # -------- CLASS DECLARATION --------
 class ObjectSay(NaoqiNode):
@@ -89,7 +90,7 @@ class ObjectSay(NaoqiNode):
                 self.msg += x + ", "
             else:
                 # Plural if the objects are more than one
-                self.msg += str(self.counter[x]) + " " + x + "s, "
+                self.msg += str(self.counter[x]) + " " + pl(x) + ", "
         self.msg += "and nothing more. "
         self.counter.clear()
         # The message is constructed and Pepper can say it

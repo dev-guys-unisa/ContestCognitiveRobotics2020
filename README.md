@@ -17,7 +17,12 @@ ___
 Implement a [ROS](https://wiki.ros.org) architecture that makes [Pepper](http://doc.aldebaran.com/2-5/home_pepper.html) able to *recognize the objects* inside a scene and to describe the scene itself, by listing the different objects it has seen. The goal is, therefore, to make the robot able to look around, perform object detection and say aloud what it has managed to recognize.
 
 #### Software Requirements
-This task is made relying on the [ROS (Robot Operating System)](https://wiki.ros.org) library, in particular the *melodic* distro.
+This task is made relying on the [ROS (Robot Operating System)](https://wiki.ros.org) library, in particular the *melodic* distro. Moreover you need the following Python packages, which can be installed using *pip install 'package_name'*:
+```
+tensorflow=2.2
+pattern=3.6
+opencv=4.4.0
+```
 
 #### Project Architecture
 The implemented [ROS](https://wiki.ros.org) architecture was designed to have 4 fundamental nodes to carry out the assigned task:
