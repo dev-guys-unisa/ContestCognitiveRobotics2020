@@ -29,18 +29,14 @@ DEBUG = False
 
 rospy.init_node('visualization_node')
 image_lock = Lock()
-image = None
+original_images = {} #pose(String):image(numpy)
+detections = {} #pose(String):detections(Detection2D)
+MAX_IMAGES = 3
+cnt = 0
 
-def rcv_detection(msg):
-    global image
-    rospy.loginfo('detection here')
-    image_lock.acquire()
-    if image is None: im = None
-    else: im = image.copy()
-    image_lock.release()
-    if im is None: return
+def put_detections(im,detections):
     h,w,_ = im.shape
-    for d in msg.detections:
+    for d in detections:
         c = d.results[0].id
         s = d.results[0].score
         b = [d.bbox.center.y,d.bbox.center.x,d.bbox.size_y, d.bbox.size_x]
@@ -48,19 +44,37 @@ def rcv_detection(msg):
         b[1]-=b[3]/2
         p1 = (int(b[1]*w+.5), int(b[0]*h+.5))
         p2 = (int((b[3]+b[1])*w+.5), int((b[2]+b[0])*h+.5))
-        print(classmap[c], s)
+        #print(classmap[c], s)
         col = (255,0,0) 
         cv2.rectangle(im, p1, p2, col, 3 )
         p1 = (p1[0]-10, p1[1])
         cv2.putText(im, "%s %.2f" % (classmap[c],s), p1, cv2.FONT_HERSHEY_SIMPLEX, 0.8, col, 2)
-    cv2.imshow("Capture", im)
-    cv2.waitKey(0)
+    return im
+
+def rcv_detection(msg):
+    cnt += 1
+    rospy.loginfo('detection here')
+    image_lock.acquire()
+    try:
+        im=original_images[msg.pose].copy()
+        del original_images[msg.pose]
+    except:
+        im=None
+    image_lock.release()
+    if im is None: #process later
+        detections[msg.pose]=msg.detections
+        return
+    cv2.imwrite(msg.pose+"_detection.jpg",put_detections(im,msg.detections))
+    if cnt==3 and len(list(original_images.keys())>0): #recover unresolved detections
+        for p,i in original_images:
+            det = detections[p]
+            cv2.imwrite(p+"_detection.jpg",put_detections(i,det))
 
 def rcv_image(msg):
-    global image
     rospy.loginfo('image here')
     image_lock.acquire()
     image = ros_numpy.numpify(msg.image)
+    original_images[msg.pose] = image
     image_lock.release()
 
 if DEBUG:

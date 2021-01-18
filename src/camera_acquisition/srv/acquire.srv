@@ -1,0 +1,3 @@
+std_msgs/String pose_request
+---
+std_msgs/Bool img_acquired

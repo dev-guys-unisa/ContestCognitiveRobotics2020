@@ -22,16 +22,18 @@ import rospy
 from naoqi_bridge_msgs.msg import JointAnglesWithSpeed
 from std_msgs.msg import String
 from time import sleep
+from camera_acquisition.srv import acquire
 
 # Rospy Node
 rospy.init_node("head_movement")
 
 # Subscription as a publisher to the topic /pepper_robot/pose/joint_angles
 pub = rospy.Publisher('/pepper_robot/pose/joint_angles', JointAnglesWithSpeed, queue_size=0)
-pub_joint = rospy.Publisher('/pepper_pose', String, queue_size=0)
+#pub_joint = rospy.Publisher('/pepper_pose', String, queue_size=0)
 rospy.loginfo("Initialized node")
 rospy.loginfo("Created publisher to the /pepper_robot/pose/joint_angles topic")
 rospy.loginfo("Created publisher to the /pepper_pose topic")
+acquire = rospy.ServiceProxy('check_acquisition',acquire)
 
 # Defining message to be published
 # Angles are treated in terms of pitch and yaw
@@ -65,24 +67,45 @@ while not rospy.is_shutdown():
         cnt += 1
         pub.publish(s)
     elif not flag[0]:
-        pub_joint.publish(String("Center"))
-        # Turn left
-        s.joint_angles = [0.1, 1.0]
-        flag[0] = True
-        rospy.loginfo("Turning in [%.1f - %.1f]", s.joint_angles[0], s.joint_angles[1])
-        pub.publish(s)
+        #pub_joint.publish(String("Center")) #CHIAMARE SERVIZIO E ASPETTARE BOOLEANO
+        try:
+            resp = acquire(String("Center"))
+            if resp.img_acquired:
+                # Turn left
+                s.joint_angles = [0.1, 1.0]
+                flag[0] = True
+                rospy.loginfo("Turning in [%.1f - %.1f]", s.joint_angles[0], s.joint_angles[1])
+                pub.publish(s)
+            else:
+                rospy.logerr("No image acquired on center")
+        except rospy.ServiceException as e:
+            print("Service call failed: %s"%e)
     elif not flag[1]:
-        pub_joint.publish(String("Left"))
-        # Turn right
-        s.joint_angles = [0.1, -1.0]
-        flag[1] = True
-        rospy.loginfo("Turning in [%.1f - %.1f]", s.joint_angles[0], s.joint_angles[1])
-        pub.publish(s)
+        #pub_joint.publish(String("Left"))
+        try:
+            resp = acquire(String("Left"))
+            if resp.img_acquired:
+                # Turn right
+                s.joint_angles = [0.1, -1.0]
+                flag[1] = True
+                rospy.loginfo("Turning in [%.1f - %.1f]", s.joint_angles[0], s.joint_angles[1])
+                pub.publish(s)
+            else:
+                rospy.logerr("No image acquired on the left")
+        except rospy.ServiceException as e:
+            print("Service call failed: %s"%e)
     elif not flag[2]:
-        pub_joint.publish(String("Right"))
-        # Return to the starting position
-        s.joint_angles = [0.1, 0.0]
-        flag[2] = True
-        rospy.loginfo("Turning in [%.1f - %.1f]", s.joint_angles[0], s.joint_angles[1])
-        pub.publish(s)
+        #pub_joint.publish(String("Right"))
+        try:
+            resp = acquire(String("Right"))
+            if resp.img_acquired:
+                # Return to the starting position
+                s.joint_angles = [0.1, 0.0]
+                flag[2] = True
+                rospy.loginfo("Turning in [%.1f - %.1f]", s.joint_angles[0], s.joint_angles[1])
+                pub.publish(s)
+            else:
+                rospy.logerr("No image acquired on the right")
+        except rospy.ServiceException as e:
+            print("Service call failed: %s"%e)
     rate.sleep()

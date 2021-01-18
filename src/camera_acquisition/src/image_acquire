@@ -17,13 +17,14 @@
 # -------- LOADING REQUIRED LIBRARIES --------
 import rospy
 from sensor_msgs.msg import Image
-from std_msgs.msg import String
+from std_msgs.msg import String, Bool
 from camera_acquisition.msg import ImageWithPose
+from camera_acquisition.srv import acquire, acquireResponse
 
 # -------- TOPICS DECLARATION --------
 topic = "/pepper_robot/camera/front/camera/image_raw" # on which acquires image stream
-topic_joint = "/pepper_pose" # on which acquires Pepper movement
 topic_image = "/image_capture" # on which publishes the captured images
+joint_service = "check_acquisition"
 
 # -------- CLASS DECLARATION --------
 class ImageRetriever:
@@ -31,7 +32,7 @@ class ImageRetriever:
     The ImageRetriever class is responsible to show the video captured from the camera
     """
   
-    def __init__(self, topic, topic_joint, topic_image):
+    def __init__(self, topic, joint_service, topic_image):
         """ 
         This method initializes the ImageRetriever object, subscribing it to 2 topics and
         make it publisher on another one.
@@ -43,13 +44,17 @@ class ImageRetriever:
         """ 
         self.catch = False
         self.pose = None
+        self.frame = None
 
         rospy.loginfo("Intializing Subcriber to topic %s", topic) 
         self.image_sub = rospy.Subscriber(topic, Image, self.callback)
-        rospy.loginfo("Intializing Subcriber to topic %s", topic_joint) 
-        self.image_joint = rospy.Subscriber(topic_joint, String, self.catch_callback)
+        """rospy.loginfo("Intializing Subcriber to topic %s", topic_joint) 
+        self.image_joint = rospy.Subscriber(topic_joint, String, self.catch_callback)"""
         rospy.loginfo("Intializing Publisher to topic %s", topic_image) 
         self.image_pub = rospy.Publisher(topic_image, ImageWithPose, queue_size=0)
+        rospy.loginfo("Intializing Server of service %s", joint_service)
+        self.server = rospy.Service(joint_service, acquire, self.catch_callback)
+        
 
     def callback(self, data):
         """
@@ -58,18 +63,9 @@ class ImageRetriever:
         Args:
             data (sensor_msgs/Image): stream of robot camera
         """
-        # if robot has finisched its movement, catch and publish image
-        if self.catch:
-            # Prepare the message to send wich is an ImageWithPose
-            msg = ImageWithPose()
-            msg.pose = self.pose
-            msg.image = data
-            # Publish message
-            self.image_pub.publish(msg)
-            rospy.loginfo("Image published..")
-            self.catch = False
+        self.frame = data
 
-    def catch_callback(self, data):
+    def catch_callback(self, req):
         """
         This is the callback called when the robot has finished the movement in order to launch the catching of the image.
 
@@ -77,14 +73,25 @@ class ImageRetriever:
             data (std_msgs/String): position of robot's head
         """    
         rospy.loginfo("Trying to catch image...")
-        self.catch = True # launch the catch
-        self.pose = data # store pose
+        flag = Bool()
+        if self.frame is None:
+            flag.data = False
+            return acquireResponse(flag)
+        else:
+            flag.data = True
+            msg = ImageWithPose()
+            msg.pose = req.pose_request
+            msg.image = self.frame
+            # Publish message
+            self.image_pub.publish(msg)
+            rospy.loginfo("Image published..")
+            return acquireResponse(flag)
 
 # -------- MAIN --------
 if __name__ == '__main__':
     rospy.init_node("camera_stream")
     rospy.loginfo("Intialized /image_acquire node")
-    ir = ImageRetriever(topic, topic_joint, topic_image)
+    ir = ImageRetriever(topic, joint_service, topic_image)
     try:
         rospy.spin()
     except KeyboardInterrupt:
