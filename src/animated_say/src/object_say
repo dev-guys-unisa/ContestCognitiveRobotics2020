@@ -82,17 +82,20 @@ class ObjectSay(NaoqiNode):
         self.msg += "\RSPD=65" + "\ On the " if self.pictures == 1 else "Then, on the " 
         self.msg += str(data.pose.data) + " side, I see ^start(animations/Stand/Gestures/Explain_10) "
         # Object counting
-        for s in data.detections:
-            self.counter[s.data] += 1
-        for x in self.counter:
-            if self.counter[x] == 1:
-                self.msg += "an " if self._is_vowel(x[0]) else "a "
-                self.msg += x + ", "
-            else:
-                # Plural if the objects are more than one
-                self.msg += str(self.counter[x]) + " " + pl(x) + ", "
-        self.msg += "and nothing more. "
-        self.counter.clear()
+        if len(data.detections) == 0: # see nothing in that image
+            self.msg += "nothing. "
+        else: # counting
+            for s in data.detections:
+                self.counter[s.data] += 1                
+            for x in self.counter:
+                if self.counter[x] == 1:
+                    self.msg += "an " if self._is_vowel(x[0]) else "a "
+                    self.msg += x + ", "
+                else:
+                    # Plural if the objects are more than one
+                    self.msg += str(self.counter[x]) + " " + pl(x) + ", "
+                self.msg += "and nothing more. "
+            self.counter.clear() # reset counting dict
         # The message is constructed and Pepper can say it
         if self.pictures == 3:
             self.say(self.msg)
