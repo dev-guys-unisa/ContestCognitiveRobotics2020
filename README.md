@@ -53,7 +53,7 @@ cd ../..
 source devel/setup.bash
 ``` 
 
-We are now ready to call the launch file and connect to Pepper. Jump to the [Pepper Launch](####-Pepper-Launch) section.
+We are now ready to call the launch file and connect to Pepper. Jump to the [Pepper Launch](https://github.com/dev-guys-unisa/ContestCognitiveRobotics2020#pepper-launch) section.
 
 *Please remind that the repository must be cloned in the home directory in order to execute the script, otherwise follow the Pro Guide*
 ___
