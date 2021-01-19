@@ -39,8 +39,25 @@ Model name | Speed (ms) | COCO mAP | Outputs
 ---------- | :--------: | :----------: | :-----:
 [efficientdet_d1_coco17_tpu-32](http://download.tensorflow.org/models/object_detection/tf2/20200711/efficientdet_d1_coco17_tpu-32.tar.gz) | 54 | 38.4 | Boxes
 ___
+# Getting Started as a Noob
+We thought of everyone, because everyone can be able to see Pepper in action. In the ```utils/script``` folder there is a file called ```noobsetup.sh``` that must be launched with the command ```./noobsetup.sh``` (obviously going to the script folder). At this point, have a coffee and wait for the execution of the script to finish.
 
-# Getting Started 
+Once finished, let's go back to the project directory and resource the repo to being able to run the launch file. So we have to do the following steps:
+
+```bash
+pwd # ~/ContestCognitiveRobotics2020
+cd utils/script
+./noobsetup.sh
+# Have a coffee now and wait 'til the end
+cd ../..
+source devel/setup.bash
+``` 
+
+We are now ready to call the launch file and connect to Pepper. Jump to the [Pepper Launch](####-Pepper-Launch) section.
+
+*Please remind that the repository must be cloned in the home directory in order to execute the script, otherwise follow the Pro Guide*
+___
+# Getting Started as a Pro
 To be able to use this architecture it is necessary to have the Python ```pynaoqi``` libraries available by running some simple commands from the terminal. Here are some startup operations to perform, before starting pepper roslaunch.
 
 #### Python NaoQi Download & Setup
