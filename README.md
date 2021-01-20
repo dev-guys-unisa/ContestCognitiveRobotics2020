@@ -40,7 +40,7 @@ Model name | Speed (ms) | COCO mAP | Outputs
 [efficientdet_d1_coco17_tpu-32](http://download.tensorflow.org/models/object_detection/tf2/20200711/efficientdet_d1_coco17_tpu-32.tar.gz) | 54 | 38.4 | Boxes
 ___
 
-# Clone & Build the Repository
+# Clone the Repository
 First of all it is necessary to clone the repository and the advice is to do it in the home directory, by running these commands:
 ```bash
 cd ~
