@@ -39,6 +39,14 @@ Model name | Speed (ms) | COCO mAP | Outputs
 ---------- | :--------: | :----------: | :-----:
 [efficientdet_d1_coco17_tpu-32](http://download.tensorflow.org/models/object_detection/tf2/20200711/efficientdet_d1_coco17_tpu-32.tar.gz) | 54 | 38.4 | Boxes
 ___
+
+# Clone & Build the Repository
+First of all it is necessary to clone the repository and the advice is to do it in the home directory, by running these commands:
+```bash
+cd ~
+git clone https://github.com/dev-guys-unisa/ContestCognitiveRobotics2020
+```
+___
 # Getting Started as a Noob
 We thought of everyone, because everyone can be able to see Pepper in action. In the ```utils/script``` folder there is a file called ```noobsetup.sh``` that must be launched with the command ```./noobsetup.sh``` (obviously going to the script folder). At this point, have a coffee and wait for the execution of the script to finish.
 
@@ -78,17 +86,6 @@ This operation allow us to use the [*PyNaoQi SDK*](http://doc.aldebaran.com/2-5/
 ___
 # How to launch a Demo
 Here are some fundamental indications to launch a demo of the developed architecture.
-#### Clone & Build the Repository
-First of all it is necessary to clone the repository and the advice is to do it in the home directory, by running these commands:
-```bash
-cd ~
-git clone https://github.com/dev-guys-unisa/ContestCognitiveRobotics2020
-```
-At this point the workspace must be compiled before it can be launched using these commands:
-```bash
-cd ~/ContestCognitiveRobotics2020
-catkin build
-```
 
 #### Config file setup
 The compiler will do its job correctly and it will therefore be necessary to modify the ```setup.bash``` file before you can start Pepper bringup. This can be done by launching the two commands from the terminal, making sure that the temporary variable ```$D``` is correctly set and points to the previously downloaded ```pynaoqi``` package:

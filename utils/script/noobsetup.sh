@@ -12,5 +12,4 @@ echo $D
 cd ~/ContestCognitiveRobotics2020 && catkin build
 cd ~/ContestCognitiveRobotics2020 && echo 'export PYTHONPATH=${PYTHONPATH}:$D/lib/python2.7/site-packages' >> devel/setup.bash
 cd ~/ContestCognitiveRobotics2020 && echo 'export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:$D/lib' >> devel/setup.bash
-cd ~/ContestCognitiveRobotics2020 && source devel/setup.bash
 echo "You're done !"
