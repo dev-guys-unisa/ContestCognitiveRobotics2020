@@ -130,7 +130,8 @@ def rcv_image(msg):
     # once image acquire is finished, scan the queue for processing remaining elements
     if arrived == MAX_IMAGES: 
         while mydetector is None:
-            rospy.loginfo("Model not already loaded")
+            #rospy.loginfo("Model not already loaded")
+            pass
         for pose,img in queue.items():
             detect(pose, img)
         queue.clear()

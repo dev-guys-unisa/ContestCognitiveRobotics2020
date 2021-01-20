@@ -33,7 +33,8 @@ class Detector():
 
         Args:
             model_path (String): absolute path to the saved model
-        """        
+        """
+        tf.get_logger().setLevel('ERROR')
         self.detect_fn = tf.saved_model.load(model_path)
 
     def __call__(self, img, threshold=0.5):
