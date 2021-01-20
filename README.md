@@ -83,6 +83,14 @@ rm pynaoqi-python2.7-2.5.7.1-linux64.tar.gz
 D=$(realpath pynaoqi-python2.7-2.5.7.1-linux64)
 ```
 This operation allow us to use the [*PyNaoQi SDK*](http://doc.aldebaran.com/2-5/dev/python/index.html) to develop the nodes.
+
+At this point we need to build the project, this is possible thanks to these commands:
+```bash
+cd ~/ContestCognitiveRobotics2020
+catkin build
+# Now wait 'til the end
+source devel/setup.bash
+```
 ___
 # How to launch a Demo
 Here are some fundamental indications to launch a demo of the developed architecture.
@@ -100,10 +108,16 @@ source devel/setup.bash
 #### Pepper Launch
 
 Now it is possible to launch a live demo to see Pepper's behavior live. To make things easier to run, we have decided to integrate the ```pepper_bringup``` command into a launch file built for our purpose so as to avoid endlessly opening and spawning terminal windows. The only thing to do, in fact, is to run the following command:
-```shell
+```bash
 roslaunch pepper_launch pepper.launch pip:=*ipaddress* nao_ip:=*ipaddress*
 ```
 As described in the related launch package this command will take care of launching all the nodes needed to run the demo without problems. Then every node foreseen by the architecture described above will be called.
+
+Default values setted in *Pepper Launch File*s :
+Arg Name | Default Value | Used For |
+:----------: | :--------: | :----------: |
+**pip**| 10.0.1.230| *animated_say*
+**nao_ip**| 10.0.1.230| *pepper_bringup*
 
 *Be Careful: Instead of ```*ipaddress*``` enter Pepper's ip address.*
 
