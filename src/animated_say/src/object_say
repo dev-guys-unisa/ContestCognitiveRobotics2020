@@ -94,8 +94,7 @@ class ObjectSay(NaoqiNode):
                 else:
                     # Plural if the objects are more than one
                     # x = pl(x)
-                    x += "s"
-                    self.msg += str(self.counter[x]) + " " + x + ", "
+                    self.msg += str(self.counter[x]) + " " + x + "s, "
             self.msg += "and nothing more. "
             self.counter.clear() # reset counting dict
         # The message is constructed and Pepper can say it
