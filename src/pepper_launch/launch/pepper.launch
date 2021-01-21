@@ -18,6 +18,5 @@
     <node name="movement" pkg="head_movement" type="head_shake" output="screen"/>
     
     <!-- <node name="visualization" pkg="pepper_detector" type="visualization_node" output="screen"/> -->
-    <!-- <node name="publisher" pkg="camera_publisher" type="publisher" output="screen"/> -->
 
 </launch>
